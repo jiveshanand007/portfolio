@@ -10,6 +10,7 @@ import { StickyFollowup } from "./chat/sticky-followup";
 import { Turn, type TurnData } from "./chat/turn";
 import { readPersistedAudience } from "./chat/audience-pills";
 import { Icon } from "./ui/icon";
+import { HeroParticles } from "./motion/hero-particles";
 import type { Audience } from "@/lib/sse";
 
 export interface SuggestionChipsByAudience {
@@ -175,8 +176,9 @@ function Body({ subheadline, suggestionChips }: ChatShellProps) {
     return (
       <section
         aria-label="Ask"
-        className="flex min-h-[calc(100svh-48px)] flex-col justify-center px-5 pb-16 pt-14 sm:px-8"
+        className="relative isolate flex min-h-[calc(100svh-48px)] flex-col justify-center overflow-hidden px-5 pb-16 pt-14 sm:px-8"
       >
+        <HeroParticles />
         <div className="mx-auto w-full max-w-[860px]">
           <Hero subheadline={subheadline} audience={audience} onAudienceChange={setAudience} />
           <div

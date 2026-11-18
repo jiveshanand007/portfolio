@@ -12,7 +12,9 @@ export function chunkMdx(raw: string, filePath: string): MdxChunk[] {
   const frontmatter = parsed.data;
   const body = parsed.content;
 
-  const lines = body.split("\n");
+  // Split on CRLF too: files checked out on Windows end lines with "\r\n", and a
+  // trailing "\r" stops the h2 regex below from matching any heading.
+  const lines = body.split(/\r?\n/);
   const sections: { heading?: string; lines: string[] }[] = [{ lines: [] }];
 
   let inFence = false;

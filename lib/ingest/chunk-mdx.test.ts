@@ -47,6 +47,14 @@ describe("chunkMdx", () => {
     expect(result[0].metadata.themes).toEqual(["backend", "scaling"]);
   });
 
+  it("splits files with Windows (CRLF) line endings the same way", () => {
+    const crlf = sample.replace(/\n/g, "\r\n");
+    const result = chunkMdx(crlf, "experience/test.mdx");
+    const headings = result.map((c) => c.metadata.heading).filter(Boolean);
+    expect(headings).toEqual(["Outbox Pattern", "Partitioning"]);
+    expect(result.every((c) => !c.content.includes("\r"))).toBe(true);
+  });
+
   it("ignores ## inside fenced code blocks", () => {
     const fenced = `---
 title: T

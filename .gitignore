@@ -26,3 +26,10 @@ dist/
 
 # /brag launch-video output (local renders)
 brag-output*/
+
+# Design mockups from the designer agent (served locally, never shipped)
+public/design-lab/
+
+# Local tooling output
+graphify-out/
+.idea/

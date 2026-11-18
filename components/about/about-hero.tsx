@@ -1,4 +1,5 @@
 import type { AboutFrontmatterT } from "@/lib/content/about";
+import { StatCount } from "../motion/stat-count";
 
 /** Keynote emphasis: the sentence sits in grey, the *marked* words step forward in full ink. */
 function renderLede(lede: string) {
@@ -64,7 +65,7 @@ export function AboutNumbers({ stats }: { stats: AboutFrontmatterT["stats"] }) {
           className="border-t border-border py-6 text-[clamp(24px,3.2vw,36px)] font-semibold leading-[1.15] tracking-[-0.03em] text-muted sm:py-8"
         >
           <span className="text-fg">
-            {s.num}
+            <StatCount value={s.num} />
             {s.unit ? (s.unit === "★" ? "-star" : ` ${s.unit}`) : ""}
           </span>{" "}
           {s.cap}

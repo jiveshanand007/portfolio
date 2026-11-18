@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ProjectFrontmatterT } from "@/lib/content/projects";
 import { Icon } from "../ui/icon";
 import { StageReveal } from "../ui/stage-reveal";
+import { SpotlightTile } from "../motion/spotlight-tile";
 
 interface ProjectCardProps {
   project: ProjectFrontmatterT;
@@ -120,8 +121,9 @@ export function ProjectCard({ project, featured }: ProjectCardProps) {
   }
 
   return (
-    <article data-project-card data-slug={project.slug} className="border-t border-border py-12 sm:py-16">
-      <StageReveal className="grid gap-6 md:grid-cols-12 md:gap-10">
+    <article data-project-card data-slug={project.slug} className="py-3 sm:py-4">
+      <StageReveal>
+        <SpotlightTile className="grid gap-6 sm:p-10 md:grid-cols-12 md:gap-10">
         <div className="md:col-span-5">
           {project.icon ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -150,6 +152,7 @@ export function ProjectCard({ project, featured }: ProjectCardProps) {
             </div>
           )}
         </div>
+        </SpotlightTile>
       </StageReveal>
     </article>
   );

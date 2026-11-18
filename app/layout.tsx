@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Mona_Sans, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/header";
 import { Chrome } from "@/components/chrome";
+import { SiteSparks } from "@/components/motion/site-sparks";
 import "./globals.css";
 
 const mona = Mona_Sans({
@@ -45,8 +46,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-bg text-fg">
         <Chrome>
-          <Header />
-          {children}
+          <SiteSparks>
+            <Header />
+            {children}
+          </SiteSparks>
         </Chrome>
       </body>
     </html>
