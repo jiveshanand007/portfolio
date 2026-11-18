@@ -7,6 +7,13 @@ import { CommitGraph } from "@/components/projects/commit-graph";
 import { StageReveal } from "@/components/ui/stage-reveal";
 import { Icon } from "@/components/ui/icon";
 import { Footer } from "@/components/footer";
+import { CinematicHero, type FilmNavItem } from "@/components/film/cinematic-hero";
+
+// Scenes are added here as each one is designed and approved.
+const FILM_NAV: FilmNavItem[] = [
+  { href: "#home", label: "HOME" },
+  { href: "#ask", label: "ASK ME" },
+];
 
 export const revalidate = 21600; // 6h — ISR for the embedded GitLab activity graph
 
@@ -82,7 +89,10 @@ export default function Home() {
   return (
     <>
       <main>
-        <ChatShell subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
+        <CinematicHero nav={FILM_NAV} />
+        <section id="ask" className="scroll-mt-20">
+          <ChatShell subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
+        </section>
         <ProjectsSection />
         <CommitGraph />
         <CloseStage />

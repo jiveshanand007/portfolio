@@ -1,0 +1,130 @@
+/* Cinematic film styles (scene: hero). Ported from the approved mockup
+   public/design-lab/cinematic/hero.html. Dark-only by design. */
+/* ============ tokens ============ */
+  :root {
+    --ch-black: #08090d;
+    --ch-midnight: #0e1a2b;
+    --ch-teal: #2ec4b6;       /* turquoise */
+    --ch-teal-soft: rgba(46, 196, 182, 0.55);
+    --ch-flame: #ff7a1a;
+    --ch-crimson: #c8102e;
+    --ch-silver: #d5dde7;
+    --ch-silver-dim: #8e9bab;
+    --ch-font-display: var(--font-shippori), "Yu Mincho", serif;
+    --ch-font-title: var(--font-cinzel), var(--font-shippori), serif;
+    --ch-font-ui: var(--font-zen-kaku), system-ui, sans-serif;
+    --ch-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ============ nav + progress (site chrome) ============ */
+  .ch-nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 26px clamp(16px, 4vw, 56px);
+    opacity: 0;
+  }
+  .ch-mark { font-family: var(--ch-font-display); font-weight: 800; font-size: 22px; letter-spacing: 0.12em; color: var(--ch-silver); display: flex; align-items: center; gap: 12px; }
+  .ch-mark i { font-style: normal; display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--ch-teal-soft); color: var(--ch-teal); font-size: 17px; }
+  .ch-links { display: flex; gap: clamp(14px, 2.2vw, 34px); list-style: none; }
+  .ch-links a { font-size: 12px; font-weight: 500; letter-spacing: 0.28em; color: var(--ch-silver-dim); position: relative; padding: 6px 0; transition: color 0.3s; }
+  .ch-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--ch-teal); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ch-ease-out); }
+  .ch-links a:hover, .ch-links a[aria-current="true"] { color: var(--ch-silver); }
+  .ch-links a:hover::after, .ch-links a[aria-current="true"]::after { transform: scaleX(1); }
+
+  .ch-progress { position: fixed; right: clamp(16px, 2.4vw, 36px); top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 14px; opacity: 0; }
+  .ch-progress-chap { writing-mode: vertical-rl; font-family: var(--ch-font-display); font-size: 13px; letter-spacing: 0.4em; color: var(--ch-silver-dim); }
+  .ch-progress-rail { width: 1px; height: 30vh; background: rgba(213, 221, 231, 0.16); position: relative; overflow: hidden; }
+  .ch-progress-fill { position: absolute; inset: 0; background: linear-gradient(var(--ch-teal), var(--ch-flame)); transform-origin: top; transform: scaleY(0); }
+
+  /* ============ hero: pinned track + sticky stage ============ */
+  .ch-hero { position: relative; height: 230vh; }
+  .ch-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--ch-black); }
+  .ch-layer { position: absolute; inset: 0; pointer-events: none; }
+
+  .ch-bg { will-change: transform, filter; transform-origin: 76% 58%; }
+  .ch-bg img { object-fit: cover; object-position: 62% 50%; }
+
+  /* moon bloom sits exactly on the painted moon (79%, 27% of the image) */
+  .ch-moonglow {
+    background: radial-gradient(circle at 79% 27%, rgba(225, 236, 248, 0.55) 0%, rgba(160, 200, 235, 0.22) 9%, rgba(46, 196, 182, 0.06) 22%, transparent 38%);
+    mix-blend-mode: screen; opacity: 0;
+  }
+  /* legibility: darken the left half where the type sits */
+  .ch-shade { background: linear-gradient(90deg, rgba(8, 9, 13, 0.78) 0%, rgba(8, 9, 13, 0.45) 38%, transparent 62%), linear-gradient(0deg, rgba(8, 9, 13, 0.85) 0%, transparent 30%); }
+
+  .ch-fog { background-repeat: repeat-x; background-size: 1400px 100%; mix-blend-mode: screen;
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 80%); mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 80%); }
+  .ch-fog-a { opacity: 0.38; }
+  .ch-fog-b { opacity: 0.26; background-size: 1900px 100%; }
+  .ch-fogwall { background: linear-gradient(to top, rgba(170, 196, 220, 0.9), rgba(120, 150, 180, 0.55) 45%, rgba(40, 60, 85, 0.25) 75%, transparent); opacity: 0; }
+
+  .ch-particles { width: 100%; height: 100%; }
+  .ch-veil { background: var(--ch-black); }
+  .ch-flash { background: radial-gradient(ellipse at 55% 45%, rgba(220, 255, 250, 0.85), rgba(46, 196, 182, 0.25) 40%, transparent 70%); mix-blend-mode: screen; opacity: 0; }
+
+  /* katana slash */
+  .ch-slash { width: 100%; height: 100%; overflow: visible; }
+  .ch-slash path { fill: none; stroke-linecap: round; }
+  .ch-slash .glow { stroke: var(--ch-teal); stroke-width: 26; filter: url(#ch-blur); opacity: 0.9; }
+  .ch-slash .core { stroke: #f4fffd; stroke-width: 4; }
+  .ch-slash .scar { stroke: rgba(213, 240, 236, 0.7); stroke-width: 1.4; }
+
+  /* ============ copy ============ */
+  .ch-copy {
+    position: absolute; inset: 0; z-index: 5;
+    display: flex; flex-direction: column; justify-content: center; gap: clamp(14px, 2vh, 24px);
+    padding: clamp(84px, 13vh, 120px) clamp(16px, 7vw, 140px) clamp(96px, 15vh, 140px) clamp(16px, 9vw, 170px);
+    will-change: transform, opacity;
+  }
+  .ch-vlabel {
+    position: absolute; left: clamp(16px, 3.4vw, 56px); top: 50%; transform: translateY(-50%);
+    writing-mode: vertical-rl; font-family: var(--ch-font-display); font-weight: 700; font-size: clamp(14px, 1.3vw, 18px);
+    letter-spacing: 0.6em; color: var(--ch-teal); opacity: 0;
+  }
+  .ch-vlabel::after { content: ""; display: block; width: 1px; height: 64px; margin: 18px auto 0; background: linear-gradient(var(--ch-teal), transparent); }
+  .ch-kicker { font-size: clamp(12px, 1.1vw, 15px); font-weight: 500; letter-spacing: 0.5em; color: var(--ch-teal); display: flex; align-items: center; gap: 16px; }
+  .ch-kicker::before { content: ""; width: 48px; height: 1px; background: var(--ch-teal); flex-shrink: 0; }
+  .ch-kicker-txt { white-space: nowrap; }
+  .ch-kicker-txt span { display: inline-block; opacity: 0; }
+
+  .ch-name { position: relative; font-family: var(--ch-font-title); font-weight: 800; font-size: clamp(48px, min(11vw, 19vh), 176px); line-height: 0.92; filter: drop-shadow(0 0 24px rgba(46, 196, 182, 0.16)); letter-spacing: 0.04em; text-transform: uppercase; }
+  .ch-name-line { display: block; overflow: hidden; padding: 0.06em 0.04em 0.2em; margin-bottom: -0.14em; }
+  .ch-name-line + .ch-name-line { padding-left: 0.5em; }
+  .ch-char { display: inline-block; opacity: 0; will-change: transform, opacity;
+    background: linear-gradient(180deg, #f6f9fc 0%, #c9d4e0 55%, #8fa2b6 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  /* the two halves of the cut: same text, clipped along the slash angle */
+  .ch-cut { position: absolute; inset: 0; pointer-events: none; visibility: hidden; }
+  .ch-cut-top { clip-path: polygon(0 0, 100% 0, 100% 22%, 0 86%); }
+  .ch-cut-bot { clip-path: polygon(0 86%, 100% 22%, 100% 100%, 0 100%); }
+  .ch-cut .ch-char { opacity: 1; }
+
+  .ch-sub { font-size: clamp(16px, 1.6vw, 22px); color: var(--ch-silver); letter-spacing: 0.06em; max-width: 34ch; opacity: 0; }
+  .ch-sub em { font-style: normal; color: var(--ch-flame); }
+
+  .ch-cue { position: absolute; left: 50%; bottom: clamp(22px, 5vh, 46px); transform: translateX(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 14px; opacity: 0; }
+  .ch-cue span { font-size: 11px; font-weight: 500; letter-spacing: 0.42em; color: var(--ch-silver-dim); white-space: nowrap; }
+  .ch-cue i { display: block; width: 1px; height: 54px; background: rgba(213, 221, 231, 0.2); position: relative; overflow: hidden; }
+  .ch-cue i::after { content: ""; position: absolute; left: 0; top: -50%; width: 100%; height: 50%; background: linear-gradient(transparent, var(--ch-teal)); animation: ch-drip 2.2s var(--ch-ease-out) infinite; }
+  @keyframes ch-drip { to { top: 100%; } }
+
+  /* ============ responsive ============ */
+  @media (max-width: 860px) {
+    .ch-links { display: none; }
+    .ch-bg { transform-origin: 70% 58%; }
+    .ch-bg img { object-position: 74% 50%; }
+    .ch-shade { background: linear-gradient(180deg, rgba(8, 9, 13, 0.25) 0%, rgba(8, 9, 13, 0.55) 45%, rgba(8, 9, 13, 0.9) 100%); }
+    .ch-copy { justify-content: flex-end; padding: 96px 16px 150px 52px; }
+    .ch-vlabel { left: 14px; top: auto; bottom: 150px; transform: none; }
+    .ch-name-line + .ch-name-line { padding-left: 0.3em; }
+    .ch-progress { display: none; }
+    .ch-kicker { font-size: 11px; letter-spacing: 0.24em; gap: 10px; }
+    .ch-kicker::before { width: 22px; }
+  }
+
+  /* ============ reduced motion: everything visible, nothing moves ============ */
+  @media (prefers-reduced-motion: reduce) {
+    .ch-hero { height: 100vh; }
+    .ch-veil, .ch-flash, .ch-slash, .ch-particles, .ch-fogwall { display: none; }
+    .ch-nav, .ch-progress, .ch-vlabel, .ch-kicker-txt span, .ch-char, .ch-sub, .ch-cue, .ch-moonglow { opacity: 1 !important; }
+    .ch-cue i::after { animation: none; }
+  }
