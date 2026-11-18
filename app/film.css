@@ -248,3 +248,17 @@
   .br-fx, .br-slash, .br-fog { display: none; }
 }
 .br-style { font-family: var(--ch-font-display); font-weight: 700; font-size: clamp(12px, 1vw, 15px); letter-spacing: 0.32em; text-transform: uppercase; color: var(--br-color); opacity: 0; }
+
+/* ---------- sound toggle (lib/film/audio.ts) ---------- */
+.ch-nav { gap: 24px; }
+.ch-links { margin-left: auto; }
+.ch-sound { display: inline-flex; align-items: center; gap: 10px; padding: 7px 12px; border: 1px solid rgba(213, 221, 231, 0.22); border-radius: 999px;
+  font-family: var(--ch-font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.24em; color: var(--ch-silver-dim); background: rgba(8, 9, 13, 0.35); cursor: pointer; transition: color 0.3s, border-color 0.3s; }
+.ch-sound:hover, .ch-sound[aria-pressed="true"] { color: var(--ch-silver); border-color: var(--ch-teal-soft); }
+.ch-sound-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.ch-sound-bars i { display: block; width: 2px; height: 4px; background: currentColor; border-radius: 1px; }
+.ch-sound[aria-pressed="true"] .ch-sound-bars i { animation: ch-eq 0.9s ease-in-out infinite alternate; background: var(--ch-teal); }
+.ch-sound[aria-pressed="true"] .ch-sound-bars i:nth-child(2) { animation-delay: -0.3s; }
+.ch-sound[aria-pressed="true"] .ch-sound-bars i:nth-child(3) { animation-delay: -0.6s; }
+@keyframes ch-eq { from { height: 3px; } to { height: 12px; } }
+@media (prefers-reduced-motion: reduce) { .ch-sound-bars i { animation: none !important; height: 8px; } }

@@ -44,6 +44,10 @@ export const SiteConfig = z.object({
     imageAlt: z.string().min(1).max(200),
   }),
   filmNav: z.array(NavItem).min(1).max(8),
+  /** the synthesized film sound: off until the visitor turns it on */
+  sound: z
+    .object({ label: z.string().min(1).max(16).default("SOUND"), volume: z.number().min(0).max(1).default(0.6) })
+    .default({ label: "SOUND", volume: 0.6 }),
   scenes: z.object({
     about: z.object({
       /** shown on the progress rail while this scene is on screen */

@@ -36,6 +36,7 @@
     { "href": "#work", "label": "WORK" },
     { "href": "#contact", "label": "CONTACT" }
   ],
+  "sound": { "label": "SOUND", "volume": 0.6 },
   "scenes": {
     "about": {
       "chapter": "第二章 · 目覚め",

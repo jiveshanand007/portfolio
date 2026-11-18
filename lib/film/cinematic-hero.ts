@@ -11,6 +11,8 @@
  * `root` is the hero section. Returns a cleanup function.
  */
 
+import { filmAudio } from "./audio";
+
 type EaseName = "out" | "expo" | "inOut" | "back" | "lin";
 interface Track {
   start: number;
@@ -165,6 +167,11 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     el.cutBot.style.transform = `translate(${-16 * k}px, ${9 * k}px)`;
   };
 
+  let slashHeard = false;
+  at(SLASH, 0.01, () => {
+    if (!slashHeard) filmAudio.slash(1.1);
+    slashHeard = true;
+  }, "lin");
   at(SLASH, 0.34, (p) => {
     for (const q of [glow, core]) {
       q.style.opacity = p < 1 ? "1" : "0";
@@ -306,6 +313,7 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     el.fogA.style.opacity = String(lerp(0.38, 0.75, clamp01(p / 0.7)));
     el.fogWall.style.opacity = String(EASE.inOut(clamp01((p - 0.62) / 0.38)));
     el.glow.style.filter = `brightness(${lerp(1, 1.4, push)})`;
+    filmAudio.setLayer("wind", "hero", 0.55 * (1 - p));
   };
 
   // ---------- main loop ----------
@@ -350,6 +358,7 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     if (!entry?.isIntersecting && raf) {
       win.cancelAnimationFrame(raf);
       raf = 0;
+      filmAudio.setLayer("wind", "hero", 0);
     }
   });
   io.observe(root);
@@ -358,6 +367,7 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     win.cancelAnimationFrame(raf);
     raf = 0;
     io.disconnect();
+    filmAudio.setLayer("wind", "hero", 0);
     win.removeEventListener("scroll", readScroll);
     win.removeEventListener("resize", resize);
   };

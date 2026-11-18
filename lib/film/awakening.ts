@@ -11,6 +11,8 @@
  * `root` is the scene section. Returns a cleanup function.
  */
 
+import { filmAudio, crossingUp } from "./audio";
+
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const seg = (p: number, a: number, b: number) => clamp01((p - a) / (b - a));
@@ -64,6 +66,10 @@ export function initAwakening(root: HTMLElement): () => void {
   scar.style.strokeDasharray = `${len} ${len}`;
 
   const n = lanterns.length;
+  // sounds fire when the matching visual crosses its threshold while scrolling down
+  const slashCue = crossingUp();
+  const lanternCues = lanterns.map(() => crossingUp());
+  let inView = false;
   const render = (p: number) => {
     // arrival: fog clears, the camera eases back, then drifts slowly in
     el.fog.style.opacity = String(1 - easeInOut(seg(p, 0, 0.1)));
@@ -78,6 +84,7 @@ export function initAwakening(root: HTMLElement): () => void {
     const pools = lanterns.map(([x, y], i) => {
       const start = 0.12 + (i * 0.36) / Math.max(1, n);
       const k = easeOut(seg(p, start, start + 0.08));
+      lanternCues[i](k, 0.15, () => filmAudio.ignite(0.6 + (i % 3) * 0.15));
       glows[i].style.opacity = String(k * (1 - 0.55 * dawn));
       glows[i].style.transform = `translate(-50%, -50%) scale(${lerp(0.4, 1, k)})`;
       const r = Math.max(1, k * coverW * 0.075);
@@ -90,6 +97,7 @@ export function initAwakening(root: HTMLElement): () => void {
 
     // the katana pass: a blade streak follows the scroll, leaving a fading scar
     const cut = seg(p, 0.22, 0.34);
+    slashCue(cut, 0.05, () => filmAudio.slash());
     for (const q of [glow, core]) {
       q.style.opacity = cut > 0 && cut < 1 ? "1" : "0";
       q.style.strokeDashoffset = `${lerp(len * 0.32, -len, easeInOut(cut))}`;
@@ -120,6 +128,7 @@ export function initAwakening(root: HTMLElement): () => void {
 
     // exit into the next section
     el.fade.style.opacity = String(easeInOut(seg(p, 0.9, 1)));
+    filmAudio.setLayer("wind", "awakening", inView ? 0.4 * (1 - seg(p, 0.85, 1)) : 0);
   };
 
   if (reduce) {
@@ -135,6 +144,7 @@ export function initAwakening(root: HTMLElement): () => void {
     const r = root.getBoundingClientRect();
     const travel = r.height - win.innerHeight;
     target = travel > 0 ? clamp01(-r.top / travel) : 0;
+    inView = r.top < win.innerHeight && r.bottom > 0;
   };
   const loop = () => {
     shown += (target - shown) * 0.14;
@@ -154,6 +164,7 @@ export function initAwakening(root: HTMLElement): () => void {
 
   return () => {
     win.cancelAnimationFrame(raf);
+    filmAudio.setLayer("wind", "awakening", 0);
     win.removeEventListener("scroll", onScroll);
     win.removeEventListener("resize", onScroll);
   };

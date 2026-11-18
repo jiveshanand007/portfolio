@@ -11,6 +11,7 @@
  * `root` is the scene section. Returns a cleanup function.
  */
 import { fogTexture } from "./cinematic-hero";
+import { filmAudio, crossingUp } from "./audio";
 
 type Effect = "water" | "thunder" | "flame" | "mist" | "sound";
 
@@ -206,6 +207,35 @@ export function initBreathing(root: HTMLElement): () => void {
     ctx.fillRect(0, 0, W, H);
   };
 
+  // ---------- sound ----------
+  const slashCues = techs.map(() => crossingUp());
+  let lastStrike = -1;
+  let lastBeat = -1;
+  const silence = () => {
+    filmAudio.setLayer("water", "skills", 0);
+    filmAudio.setLayer("flame", "skills", 0);
+    filmAudio.setLayer("wind", "skills", 0);
+  };
+  const sound = (t: number) => {
+    const level = (effect: Effect) => meta.reduce((m, x, j) => (x.effect === effect ? Math.max(m, weights[j]) : m), 0);
+    filmAudio.setLayer("water", "skills", level("water"));
+    filmAudio.setLayer("flame", "skills", level("flame"));
+    filmAudio.setLayer("wind", "skills", level("mist"));
+    // thunder and drums land on the same clock as the lightning and the rings
+    const strike = Math.floor(t / 1.15);
+    if (strike !== lastStrike) {
+      lastStrike = strike;
+      const a = level("thunder");
+      if (a > 0.15) filmAudio.thunder(a);
+    }
+    const beat = Math.floor(t / 0.8);
+    if (beat !== lastBeat) {
+      lastBeat = beat;
+      const a = level("sound");
+      if (a > 0.15) filmAudio.drum(a);
+    }
+  };
+
   // ---------- scroll-driven render ----------
   let mistAlpha = 0;
   const weights = new Array<number>(N).fill(0);
@@ -243,6 +273,7 @@ export function initBreathing(root: HTMLElement): () => void {
     // the slash that opens each technique
     const active = Math.min(N - 1, Math.max(0, Math.floor(v + 0.06)));
     const c = reduce ? 0 : seg(v - active, active === 0 ? 0.02 : -0.06, active === 0 ? 0.16 : 0.1);
+    slashCues[active](c, 0.05, () => filmAudio.slash());
     slash.style.setProperty("--br-slash", meta[active].color);
     for (const q of [glow, core]) {
       q.style.opacity = c > 0 && c < 1 ? "1" : "0";
@@ -295,7 +326,9 @@ export function initBreathing(root: HTMLElement): () => void {
     if (Math.abs(target - shown) < 0.0005) shown = target;
     render(shown);
     drawFx((now - t0) / 1000, dt);
+    sound((now - t0) / 1000);
     raf = visible ? win.requestAnimationFrame(loop) : 0;
+    if (!visible) silence();
   };
   const start = () => {
     if (!raf) {
@@ -310,6 +343,7 @@ export function initBreathing(root: HTMLElement): () => void {
   const io = new IntersectionObserver(([entry]) => {
     visible = !!entry?.isIntersecting;
     if (visible) start();
+    else silence();
   });
   io.observe(root);
   read();
@@ -326,6 +360,7 @@ export function initBreathing(root: HTMLElement): () => void {
     win.cancelAnimationFrame(raf);
     raf = 0;
     io.disconnect();
+    silence();
     win.removeEventListener("scroll", onScroll);
     win.removeEventListener("resize", onResize);
   };

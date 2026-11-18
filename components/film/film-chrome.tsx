@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "@/lib/site";
+import { filmAudio } from "@/lib/film/audio";
 
 /**
  * The film's fixed chrome: top nav and the side progress rail. The rail fills
@@ -13,6 +14,28 @@ export function FilmChrome() {
   const fillRef = useRef<HTMLDivElement>(null);
   const chapRef = useRef<HTMLSpanElement>(null);
   const { hero, filmNav } = site;
+  const [soundOn, setSoundOn] = useState(false);
+  const [soundWaiting, setSoundWaiting] = useState(false);
+
+  // Sound is off until asked for. A returning visitor who turned it on gets it back
+  // on their first click or key press (browsers need one before any audio plays).
+  useEffect(() => {
+    filmAudio.setVolume(site.sound.volume);
+    const unsubscribe = filmAudio.subscribe((on) => {
+      setSoundOn(on);
+      setSoundWaiting(false);
+    });
+    if (!filmAudio.preferred) return unsubscribe;
+    setSoundWaiting(true);
+    const resume = () => void filmAudio.enable();
+    window.addEventListener("pointerdown", resume, { once: true });
+    window.addEventListener("keydown", resume, { once: true });
+    return () => {
+      unsubscribe();
+      window.removeEventListener("pointerdown", resume);
+      window.removeEventListener("keydown", resume);
+    };
+  }, []);
 
   useEffect(() => {
     let raf = 0;
@@ -54,6 +77,25 @@ export function FilmChrome() {
             </li>
           ))}
         </ul>
+        <button
+          type="button"
+          className="ch-sound"
+          aria-pressed={soundOn}
+          aria-label={soundOn ? "Turn sound off" : "Turn sound on"}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (soundOn) filmAudio.disable();
+            else void filmAudio.enable();
+          }}
+        >
+          <span className="ch-sound-bars" aria-hidden>
+            <i />
+            <i />
+            <i />
+          </span>
+          {site.sound.label}
+          {soundWaiting && !soundOn ? " · TAP" : soundOn ? " ON" : " OFF"}
+        </button>
       </nav>
 
       <aside className="ch-progress" aria-hidden>
