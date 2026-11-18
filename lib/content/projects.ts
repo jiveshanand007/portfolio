@@ -36,6 +36,19 @@ export const ProjectFrontmatter = z.object({
   order: z.number().int().optional(),
   /** false keeps the entry (and anything built on it) but leaves it out of Selected work */
   selected: z.boolean().default(true),
+  /** true for the project that is this website: its card invites visitors to try the chat */
+  thisSite: z.boolean().default(false),
+  /** a screenshot proving the project works (e.g. a real chat answer), shown beside the featured card */
+  proof: z
+    .object({
+      light: z.string().regex(/^\//),
+      dark: z.string().regex(/^\//).optional(),
+      alt: z.string().min(1).max(300),
+      caption: z.string().max(200).default(""),
+      width: z.number().int().positive(),
+      height: z.number().int().positive(),
+    })
+    .optional(),
 });
 
 export type ProjectFrontmatterT = z.infer<typeof ProjectFrontmatter>;

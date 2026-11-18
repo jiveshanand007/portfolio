@@ -48,7 +48,7 @@ function must<T extends Element>(root: ParentNode, sel: string): T {
 }
 
 /** Procedural fog: SVG turbulence as a tiling background image. */
-function fogTexture(seed: number, freq: string): string {
+export function fogTexture(seed: number, freq: string): string {
   const svg =
     `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='700'><filter id='f' x='0' y='0'>` +
     `<feTurbulence type='fractalNoise' baseFrequency='${freq}' numOctaves='4' seed='${seed}' stitchTiles='stitch'/>` +

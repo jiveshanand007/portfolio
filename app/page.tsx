@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer";
 import { CinematicHero } from "@/components/film/cinematic-hero";
 import { FilmChrome } from "@/components/film/film-chrome";
 import { AwakeningScene } from "@/components/film/awakening-scene";
+import { BreathingScene } from "@/components/film/breathing-scene";
 import { loadAbout } from "@/lib/content/about";
 import { site, contactLinks } from "@/lib/site";
 
@@ -95,6 +96,7 @@ export default function Home() {
       <main>
         <CinematicHero />
         <AwakeningScene lede={about.lede} stats={about.stats} />
+        <BreathingScene />
         <section id="ask" className="scroll-mt-20">
           <ChatShell subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
         </section>

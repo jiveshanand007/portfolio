@@ -31,6 +31,7 @@
   "filmNav": [
     { "href": "#home", "label": "HOME" },
     { "href": "#about", "label": "ABOUT" },
+    { "href": "#skills", "label": "SKILLS" },
     { "href": "#ask", "label": "ASK ME" },
     { "href": "#work", "label": "WORK" },
     { "href": "#contact", "label": "CONTACT" }
@@ -56,6 +57,78 @@
         [82, 25],
         [88, 19],
         [97, 5]
+      ]
+    },
+    "skills": {
+      "chapter": "第三章 · 技",
+      "kicker": "CHAPTER III",
+      "title": "Skills",
+      "techniques": [
+        {
+          "id": "water",
+          "kanji": "水",
+          "category": "Backend Development",
+          "name": "Water Breathing",
+          "effect": "water",
+          "color": "#2ec4b6",
+          "image": "/scenes/03-water-ocean.webp",
+          "imageAlt": "A swordsman leaping through a swirling ocean wave",
+          "grade": "none",
+          "line": "Where I build: the dispute, refund and UPI services I work on at Zeta.",
+          "skills": ["Java", "Spring Boot"]
+        },
+        {
+          "id": "thunder",
+          "kanji": "雷",
+          "category": "Distributed Systems",
+          "name": "Thunder Breathing",
+          "effect": "thunder",
+          "color": "#ffd84a",
+          "image": "/scenes/07-mountain-dawn.webp",
+          "imageAlt": "A swordsman on a cliff above stormy mountains",
+          "grade": "storm",
+          "line": "Work that spans many services and three card networks, kept in step.",
+          "skills": ["Distributed Systems", "Microservices"]
+        },
+        {
+          "id": "flame",
+          "kanji": "炎",
+          "category": "Problem Solving",
+          "name": "Flame Breathing",
+          "effect": "flame",
+          "color": "#ff7a1a",
+          "image": "/scenes/04-flame-battlefield.webp",
+          "imageAlt": "A swordsman swinging a blade of fire on a burning battlefield",
+          "grade": "none",
+          "line": "800+ problems solved: the habit of cutting a problem down to its core.",
+          "skills": ["Problem Solving", "Data Structures & Algorithms"]
+        },
+        {
+          "id": "mist",
+          "kanji": "霞",
+          "category": "Databases",
+          "name": "Mist Breathing",
+          "effect": "mist",
+          "color": "#b9c6d6",
+          "image": "/scenes/01-forest-moon.webp",
+          "imageAlt": "A swordsman in a mist-filled moonlit forest",
+          "grade": "mist",
+          "line": "Schemas and queries that keep financial records consistent.",
+          "skills": ["PostgreSQL", "Database Design"]
+        },
+        {
+          "id": "sound",
+          "kanji": "音",
+          "category": "Streaming & Observability",
+          "name": "Sound Breathing",
+          "effect": "sound",
+          "color": "#e0406e",
+          "image": "/scenes/05-blood-moon-castle.webp",
+          "imageAlt": "A castle under a blood-red moon",
+          "grade": "none",
+          "line": "Event streams, and the signals that show what production is really doing.",
+          "skills": ["Kafka", "Monitoring", "Observability"]
+        }
       ]
     }
   },

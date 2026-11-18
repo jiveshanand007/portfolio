@@ -42,42 +42,43 @@ function Tags({ tags }: { tags: string[] }) {
 }
 
 /**
- * Proof, not a claim: a real answer the site gave (captured from one live call),
- * with its numbered footnotes. The frame shows the top; the full image is a click away.
+ * Proof, not a claim: a screenshot from the project's `proof` frontmatter (for this
+ * site, a real chat answer with its numbered footnotes). The frame shows the top;
+ * the full image is a click away.
  */
-function AnswerProof() {
+function Proof({ proof }: { proof: NonNullable<ProjectFrontmatterT["proof"]> }) {
   return (
     <StageReveal delay={120} className="lg:col-span-6">
       <figure>
         <a
-          href="/reverse-resume/answer-light.png"
+          href={proof.light}
           target="_blank"
           rel="noreferrer"
-          aria-label="Open the full answer image"
+          aria-label="Open the full image"
           className="block h-[520px] overflow-hidden rounded-tile bg-bg-elev ring-1 ring-inset ring-border sm:h-[600px]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/reverse-resume/answer-light.png"
-            alt="A real answer from this site to “Show me how you built production rate limiting”: a Postgres token bucket in one INSERT … ON CONFLICT statement, with code, numbered citation markers and a Sources list"
-            width={1712}
-            height={2954}
+            src={proof.light}
+            alt={proof.alt}
+            width={proof.width}
+            height={proof.height}
             loading="lazy"
-            className="w-full dark:hidden"
+            className={proof.dark ? "w-full dark:hidden" : "w-full"}
           />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/reverse-resume/answer-dark.png"
-            alt="A real answer from this site to “Show me how you built production rate limiting”: a Postgres token bucket in one INSERT … ON CONFLICT statement, with code, numbered citation markers and a Sources list"
-            width={1712}
-            height={2954}
-            loading="lazy"
-            className="hidden w-full dark:block"
-          />
+          {proof.dark && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={proof.dark}
+              alt={proof.alt}
+              width={proof.width}
+              height={proof.height}
+              loading="lazy"
+              className="hidden w-full dark:block"
+            />
+          )}
         </a>
-        <figcaption className="mt-4 text-[14px] leading-snug text-muted">
-          A real answer, captured on 26 September 2026. The numbers link each claim to its source.
-        </figcaption>
+        {proof.caption && <figcaption className="mt-4 text-[14px] leading-snug text-muted">{proof.caption}</figcaption>}
       </figure>
     </StageReveal>
   );
@@ -91,7 +92,7 @@ export function ProjectCard({ project, featured }: ProjectCardProps) {
     return (
       <article data-project-card data-slug={project.slug} className="border-t border-border py-14 sm:py-24">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14">
-        <StageReveal className="lg:col-span-6">
+        <StageReveal className={project.proof ? "lg:col-span-6" : "lg:col-span-12"}>
           <h3 className="text-[clamp(40px,6vw,72px)] font-bold leading-[1] tracking-[-0.04em] text-fg [font-stretch:104%]">
             {project.title}
           </h3>
@@ -100,13 +101,15 @@ export function ProjectCard({ project, featured }: ProjectCardProps) {
             {project.description}
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <a
-              href="#top"
-              className="inline-flex h-12 items-center gap-2 rounded-pill bg-fg px-6 text-[16px] font-medium text-bg transition-transform duration-300 ease-stage hover:scale-[1.02]"
-            >
-              You&apos;re using it. Ask it something
-              <Icon name="arrow-up" className="h-4 w-4" />
-            </a>
+            {project.thisSite && (
+              <a
+                href="#ask"
+                className="inline-flex h-12 items-center gap-2 rounded-pill bg-fg px-6 text-[16px] font-medium text-bg transition-transform duration-300 ease-stage hover:scale-[1.02]"
+              >
+                You&apos;re using it. Ask it something
+                <Icon name="arrow-up" className="h-4 w-4" />
+              </a>
+            )}
             {project.url && <SourceLink url={project.url} label={project.urlLabel} />}
             {project.altUrl && <SourceLink url={project.altUrl} label={project.altUrlLabel} />}
           </div>
@@ -114,7 +117,7 @@ export function ProjectCard({ project, featured }: ProjectCardProps) {
             <Tags tags={project.tags} />
           </div>
         </StageReveal>
-        {project.slug === "reverse-resume" ? <AnswerProof /> : null}
+        {project.proof ? <Proof proof={project.proof} /> : null}
         </div>
       </article>
     );

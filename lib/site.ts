@@ -55,6 +55,34 @@ export const SiteConfig = z.object({
       /** lantern positions in the painting, as [x%, y%]; they light up in this order */
       lanterns: z.array(z.tuple([z.number().min(0).max(100), z.number().min(0).max(100)])).max(24),
     }),
+    skills: z.object({
+      chapter: z.string().max(30),
+      kicker: z.string().max(40).default(""),
+      title: z.string().min(1).max(60),
+      /** one per scroll slice, in order */
+      techniques: z
+        .array(
+          z.object({
+            id: z.string().regex(/^[a-z0-9-]+$/),
+            kanji: z.string().max(4),
+            /** the plain skill area, shown as the heading (what a recruiter reads) */
+            category: z.string().min(1).max(40),
+            /** the themed name (e.g. "Water Breathing"), shown as a small label above */
+            name: z.string().min(1).max(40),
+            /** which element effect plays over the environment */
+            effect: z.enum(["water", "thunder", "flame", "mist", "sound"]),
+            color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+            image: z.string().regex(/^\//),
+            imageAlt: z.string().min(1).max(200),
+            /** colour grading for a borrowed painting */
+            grade: z.enum(["none", "storm", "mist"]).default("none"),
+            line: z.string().max(160).default(""),
+            skills: z.array(z.string().min(1).max(40)).min(1).max(6),
+          }),
+        )
+        .min(1)
+        .max(8),
+    }),
   }),
   contact: z.object({ heading: z.string().min(1).max(80), text: z.string().min(1).max(200) }),
   footerNote: z.string().max(160).default(""),

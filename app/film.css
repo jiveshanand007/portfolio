@@ -194,3 +194,57 @@
   .aw-fog, .aw-fade, .aw-slash { display: none; }
   .aw-glow { animation: none; }
 }
+
+/* ======================================================================
+   Scene: Breathing Techniques (Skills). Motion: lib/film/breathing.ts
+   ====================================================================== */
+.br-scene { position: relative; height: calc(100vh + var(--br-n, 5) * 95vh); background: var(--ch-black); color: var(--ch-silver); font-family: var(--ch-font-ui); }
+.br-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.br-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
+.br-bg img { object-fit: cover; object-position: 65% 50%; }
+.br-grade-storm img { filter: saturate(0.55) brightness(0.62) contrast(1.2) hue-rotate(-8deg); }
+.br-grade-mist img { filter: saturate(0.3) brightness(0.8) contrast(0.8); }
+.br-shade { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(8, 9, 13, 0.9) 0%, rgba(8, 9, 13, 0.62) 36%, rgba(8, 9, 13, 0.05) 64%, transparent 78%),
+              linear-gradient(0deg, rgba(8, 9, 13, 0.75) 0%, transparent 30%), linear-gradient(180deg, rgba(8, 9, 13, 0.6) 0%, transparent 22%); }
+.br-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.br-fog { position: absolute; inset: 0; pointer-events: none; opacity: 0; background-repeat: repeat-x; background-size: 1400px 100%; mix-blend-mode: screen; }
+.br-fog-b { background-size: 1900px 100%; }
+.br-fade { position: absolute; inset: 0; pointer-events: none; background: var(--ch-black); opacity: 0; }
+
+.br-slash { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; --br-slash: #ffffff; }
+.br-slash path { fill: none; stroke-linecap: round; }
+.br-slash .glow { stroke: var(--br-slash); stroke-width: 26; filter: url(#ch-blur); opacity: 0; }
+.br-slash .core { stroke: #ffffff; stroke-width: 3.5; opacity: 0; }
+.br-slash .scar { stroke: var(--br-slash); stroke-width: 1.2; opacity: 0; }
+
+.br-head { position: absolute; z-index: 3; left: clamp(16px, 9vw, 170px); top: clamp(84px, 13vh, 120px); display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+.br-kicker { font-size: 12px; font-weight: 500; letter-spacing: 0.5em; color: var(--ch-silver-dim); }
+.br-title { font-family: var(--ch-font-title); font-weight: 700; font-size: clamp(14px, 1.3vw, 18px); letter-spacing: 0.28em; text-transform: uppercase; color: var(--ch-silver); }
+.br-count { font-family: var(--ch-font-title); font-size: 13px; letter-spacing: 0.2em; color: var(--ch-silver-dim); }
+.br-count-now { color: var(--ch-silver); }
+
+.br-tech { position: absolute; inset: 0; z-index: 2; visibility: hidden; display: flex; align-items: center; padding: clamp(150px, 22vh, 210px) clamp(16px, 6vw, 120px) clamp(60px, 10vh, 100px) clamp(16px, 9vw, 170px); }
+.br-copy { max-width: min(640px, 52vw); display: flex; flex-direction: column; gap: clamp(14px, 2.2vh, 24px); }
+.br-name { font-family: var(--ch-font-title); font-weight: 800; font-size: clamp(36px, min(5.6vw, 10vh), 92px); line-height: 1; letter-spacing: 0.02em; color: var(--br-color);
+  text-shadow: 0 0 40px color-mix(in srgb, var(--br-color) 45%, transparent); clip-path: inset(0 100% 0 0); }
+.br-line { font-family: var(--ch-font-display); font-size: clamp(17px, min(1.6vw, 2.8vh), 24px); line-height: 1.45; color: var(--ch-silver); opacity: 0; }
+.br-forms { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.br-form { display: flex; align-items: baseline; gap: 18px; padding: 12px 0; border-top: 1px solid color-mix(in srgb, var(--br-color) 40%, transparent); opacity: 0; }
+.br-form-num { font-family: var(--ch-font-display); font-weight: 700; font-size: 14px; letter-spacing: 0.2em; color: var(--br-color); min-width: 5.5em; }
+.br-form-skill { font-family: var(--ch-font-title); font-weight: 700; font-size: clamp(18px, min(1.8vw, 3.2vh), 28px); letter-spacing: 0.04em; color: #fff; }
+.br-kanji { position: absolute; right: clamp(16px, 7vw, 140px); top: 50%; margin-top: -0.55em; font-family: var(--ch-font-display); font-weight: 800; font-size: clamp(120px, min(22vw, 40vh), 360px); line-height: 1;
+  color: transparent; -webkit-text-stroke: 2px var(--br-color); opacity: 0; filter: drop-shadow(0 0 30px color-mix(in srgb, var(--br-color) 50%, transparent)); }
+
+@media (max-width: 860px) {
+  .br-shade { background: linear-gradient(180deg, rgba(8, 9, 13, 0.55) 0%, rgba(8, 9, 13, 0.35) 30%, rgba(8, 9, 13, 0.9) 70%); }
+  .br-tech { align-items: flex-end; padding: 120px 16px 48px; }
+  .br-copy { max-width: none; }
+  .br-kanji { right: 16px; top: 24%; font-size: 120px; }
+  .br-head { left: 16px; top: 84px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-fx, .br-slash, .br-fog { display: none; }
+}
+.br-style { font-family: var(--ch-font-display); font-weight: 700; font-size: clamp(12px, 1vw, 15px); letter-spacing: 0.32em; text-transform: uppercase; color: var(--br-color); opacity: 0; }
