@@ -1,27 +1,19 @@
-export const LOVE_TRIGGERS = [
-  "mumma",
-  "papa",
-  "didi",
-  "doraemon",
-  "laal mirch",
-  "love",
-  "love you",
-  "miss you",
-  "harshit❤",
-] as const;
+import { site } from "@/lib/site";
 
-export type LoveTrigger = (typeof LOVE_TRIGGERS)[number];
+/** Typing the owner's first name plus ❤ (from content/site.json) is a trigger too. */
+export const OWNER_TRIGGER = `${site.firstName.toLowerCase()}❤`;
+
+export const LOVE_TRIGGERS: readonly string[] = ["mumma", "papa", "love", "love you", "miss you", OWNER_TRIGGER];
+
+export type LoveTrigger = string;
 
 export const LOVE_MESSAGES: Record<string, string> = {
   "mumma": "Hi Mumma. He loves you.",
   "papa": "Hi Papa. He's working hard.",
-  "didi": "Hi Didi. He misses you.",
-  "doraemon": "Hi Doraemon, Muaahh bby.",
-  "laal mirch": "Laal mirch ka Kaala jaadu, hehe.",
   "miss you": "He misses you too.",
   "love": "Loved right back.",
   "love you": "Loved right back.",
-  "harshit❤": "Caught you smiling. Take a break — the code's not going anywhere.",
+  [OWNER_TRIGGER]: "Caught you smiling. Take a break — the code's not going anywhere.",
 };
 
 const FALLBACK = "For you, with love. ♥";

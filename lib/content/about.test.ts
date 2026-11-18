@@ -2,12 +2,12 @@ import { describe, it, expect } from "vitest";
 import { AboutFrontmatter, loadAbout } from "@/lib/content/about";
 
 const valid = {
-  name: "Harshit Sindhu",
+  name: "Test Person",
   tagline: "Backend-heavy full-stack developer",
-  location: "New Delhi, India",
+  location: "Test City",
   availability: "Open to opportunities",
   lede: "I own the *backend half* of B2B platforms.",
-  support: "At Zykrr I work across an analytics platform.",
+  support: "At Acme I work across an analytics platform.",
   stats: [
     { num: "~2", unit: "yrs", cap: "building B2B platforms in production" },
     { num: "100+", cap: "REST APIs designed & shipped" },
@@ -21,7 +21,7 @@ const valid = {
 describe("AboutFrontmatter", () => {
   it("parses a complete record", () => {
     const parsed = AboutFrontmatter.parse(valid);
-    expect(parsed.location).toBe("New Delhi, India");
+    expect(parsed.location).toBe("Test City");
     expect(parsed.stats).toHaveLength(4);
     expect(parsed.lede).toContain("*backend half*");
   });

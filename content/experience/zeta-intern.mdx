@@ -1,0 +1,28 @@
+---
+title: "Zeta — Software Development Engineer Intern"
+role: "Software Development Engineer Intern"
+employer: "Zeta"
+dates: "2024"
+location: "Bangalore, India"
+stack: ["Java", "Spring Boot", "Snyk"]
+kind: "Internship"
+order: 2
+summary: "Internship on Zeta's UPI payments stack (January to August 2024): dependency cleanup, a 20% latency cut through caching, security fixes and regulatory limits."
+---
+
+## Context
+
+From January to August 2024 I interned as a Software Development Engineer at Zeta, working on
+UPI payment services. This is employer work, so it is described here in prose only.
+
+## What I did
+
+- **Removed a legacy dependency.** I refactored more than 250 files to remove the legacy Gateway
+  Commons dependency, which made the services more modular and the builds more stable.
+- **Cut transaction latency by 20%.** I introduced caching (AsyncCache) in the VPA validation
+  flows.
+- **Fixed security vulnerabilities.** I fixed more than 10 critical vulnerabilities found with
+  Snyk, keeping the services compliant with RBI regulations.
+- **Regulatory limits.** I implemented MCC restrictions and ₹2 lakh transaction caps.
+- **Fewer failed QR payments.** I relaxed over-strict validation logic, which improved the QR
+  scan success rate and reduced transaction failures.

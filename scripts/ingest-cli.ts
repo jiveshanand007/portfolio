@@ -5,7 +5,6 @@ config();
 import { db, closeDb } from "@/lib/db/client";
 import { ingestRepo } from "@/lib/ingest/source-github";
 import { ingestMdxDir } from "@/lib/ingest/source-mdx";
-import { ingestChrysa } from "@/lib/ingest/source-chrysa";
 import { join } from "node:path";
 
 async function main() {
@@ -24,11 +23,8 @@ async function main() {
     } else if (source === "snippets") {
       const result = await ingestMdxDir(database, join(process.cwd(), "content/snippets"), "snippet");
       console.log(result);
-    } else if (source === "chrysa") {
-      const result = await ingestChrysa(database);
-      console.log(result);
     } else {
-      console.log("Usage: pnpm ingest <github|experience|snippets|chrysa> [args]");
+      console.log("Usage: pnpm ingest <github|experience|snippets> [args]");
     }
   } finally {
     await closeDb();

@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { detectInlineCommand } from "./inline-commands";
 import { useToast } from "../toast";
 import { useEggs } from "../chrome-context";
+import { site } from "@/lib/site";
 
 export function useInlineCommands(onSubmit: (text: string) => void) {
   const toast = useToast();
@@ -17,7 +18,7 @@ export function useInlineCommands(onSubmit: (text: string) => void) {
           toast.show(`> ${cmd.input}\n[sudo] permission granted. you're cool.`);
         } else if (cmd.kind === "whoami") {
           toast.show(
-            "harshit · full-stack · uid=1337 · groups=builders, readers, listeners"
+            `${site.firstName.toLowerCase()} · backend · uid=1337 · groups=builders, readers, listeners`
           );
         } else if (cmd.kind === "love") {
           triggerLove();

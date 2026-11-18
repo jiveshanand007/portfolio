@@ -247,7 +247,7 @@ a {
   [data-turn-id] { animation: slideIn 700ms var(--ease) both; }
 }
 
-/* Long-form reading (the Chrysa story). */
+/* Long-form reading. */
 .story-prose > * + * { margin-top: 1.1em; }
 .story-prose h2 {
   margin-top: 2.6em;

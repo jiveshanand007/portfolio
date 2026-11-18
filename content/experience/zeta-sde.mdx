@@ -1,0 +1,48 @@
+---
+title: "Zeta — Software Development Engineer"
+role: "Software Development Engineer 1"
+employer: "Zeta"
+dates: "2024 to present"
+location: "Bangalore, India"
+stack: ["Java", "Spring Boot", "PostgreSQL", "Kafka", "Apache Flink", "OpenTelemetry", "Grafana"]
+kind: "Full-time"
+order: 1
+summary: "Backend engineer on Zeta's payment dispute platform: merchant refund reconciliation, an idempotent dispute workflow, the Mastercard dispute lifecycle, and distributed tracing across card networks."
+---
+
+## Context
+
+Since August 2024 I have worked as a Software Development Engineer on Zeta's payment dispute
+platform: the services that handle card payment disputes, chargebacks and merchant refunds for
+Visa, Mastercard and RuPay. This is employer work, so it is described here in prose only.
+
+## Merchant refund reconciliation
+
+I designed the merchant refund reconciliation system. It automatically matches merchant refunds
+with disputed transactions and resumes the dispute workflows that become eligible. Instead of
+looking up each transaction live in the Ledger service, it uses a batch-processing design, which
+scales better and reduces the platform's dependency on the Ledger service.
+
+## Idempotent dispute and claim creation
+
+I redesigned the dispute and claim creation workflow to be idempotent and retry-safe. Before, a
+failure partway through could leave duplicate or inconsistent financial records; after the
+redesign, a retried request lands on the same result instead of creating a second record.
+
+## Mastercard dispute lifecycle
+
+I implemented the complete Mastercard dispute lifecycle, from representment to arbitration. I
+replaced hard-coded business rules with a configurable workflow, so supporting another card
+network means adding configuration rather than rewriting the flow.
+
+## Distributed tracing
+
+I rolled out end-to-end distributed tracing with OpenTelemetry across 5 repositories spanning
+Visa, Mastercard and RuPay services, so a single request can be followed across services when
+debugging production issues.
+
+## AI-assisted unit testing
+
+I established an AI-assisted unit testing approach for the dispute module that raised its code
+coverage from 5% to 45%. The team later adopted the approach, which helped raise overall coverage
+beyond 90%.

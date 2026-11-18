@@ -8,6 +8,7 @@ import { rewriteQuery } from "@/lib/rag/rewrite";
 import { retrieve } from "@/lib/rag/retrieve";
 import { generate } from "@/lib/rag/generate";
 import { makeSseStream } from "@/lib/sse";
+import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
 
@@ -60,7 +61,7 @@ export async function POST(req: Request) {
         send({
           type: "spend_capped",
           message:
-            "I've hit my daily budget. Try again at IST midnight, or email Harshit at harshitsindhu10@gmail.com.",
+            `I've hit my daily budget. Try again at IST midnight, or email ${site.firstName} at ${site.email}.`,
         });
         send({ type: "done" });
         close();

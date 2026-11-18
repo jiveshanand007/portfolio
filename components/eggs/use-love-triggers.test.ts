@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { detectLoveTrigger, LOVE_TRIGGERS, LOVE_MESSAGES } from "./use-love-triggers";
+import { detectLoveTrigger, LOVE_TRIGGERS, LOVE_MESSAGES, OWNER_TRIGGER } from "./use-love-triggers";
 
 describe("detectLoveTrigger", () => {
   it("matches a trigger as a whole word", () => {
@@ -20,12 +20,12 @@ describe("detectLoveTrigger", () => {
   });
 
   it("matches multi-word triggers and prefers longer matches", () => {
-    expect(detectLoveTrigger("oh laal mirch on top")?.trigger).toBe("laal mirch");
+    expect(detectLoveTrigger("oh miss you so much")?.trigger).toBe("miss you");
     expect(detectLoveTrigger("love you")?.trigger).toBe("love you");
   });
 
   it("matches the emoji trigger", () => {
-    expect(detectLoveTrigger("harshit❤")?.trigger).toBe("harshit❤");
+    expect(detectLoveTrigger(OWNER_TRIGGER)?.trigger).toBe(OWNER_TRIGGER);
   });
 
   it("uses LOVE_MESSAGES when a mapping exists", () => {
@@ -47,6 +47,6 @@ describe("detectLoveTrigger", () => {
   it("exposes the spec-listed trigger list", () => {
     expect(LOVE_TRIGGERS).toContain("mumma");
     expect(LOVE_TRIGGERS).toContain("love");
-    expect(LOVE_TRIGGERS).toContain("harshit❤");
+    expect(LOVE_TRIGGERS).toContain(OWNER_TRIGGER);
   });
 });

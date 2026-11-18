@@ -17,7 +17,7 @@ export const ProjectFrontmatter = z.object({
   description: z.string().min(1).max(400),
   tags: z.array(z.string().min(1).max(40)).max(12),
   stats: z.array(ProjectStat).max(6).default([]),
-  // absolute link to source, or a site path like "/chrysa" for an in-site story
+  // absolute link to source, or a site path like "/story" for an in-site story
   url: z
     .string()
     .regex(/^(https?:\/\/|\/)/, "url must be absolute or a site path")

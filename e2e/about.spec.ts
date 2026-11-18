@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("About page", () => {
   test("renders all five sections", async ({ page }) => {
     await page.goto("/about");
-    await expect(page.getByRole("heading", { level: 1, name: "Harshit Sindhu" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "Jivesh Anand" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Experience & education" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "What I work with" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Achievements" })).toBeVisible();

@@ -1,0 +1,42 @@
+{
+  "name": "Jivesh Anand",
+  "firstName": "Jivesh",
+  "role": "Software Development Engineer",
+  "employer": "Zeta",
+  "location": "Bangalore, India",
+  "email": "jiveshc01@gmail.com",
+  "resumeUrl": "/resume.pdf",
+  "links": [
+    { "id": "github", "label": "GitHub", "href": "https://github.com/jiveshanand007", "icon": "github" },
+    { "id": "linkedin", "label": "LinkedIn", "href": "https://www.linkedin.com/in/jiveshanand007/", "icon": "linkedin" },
+    { "id": "leetcode", "label": "LeetCode", "href": "https://leetcode.com/jiveshanand007/" }
+  ],
+  "seo": {
+    "title": "Jivesh Anand — The Journey of a Developer",
+    "description": "Backend engineer at Zeta building payment systems. Scroll the story, or ask my work anything."
+  },
+  "hero": {
+    "kicker": "THE JOURNEY OF A DEVELOPER",
+    "nameLines": ["Jivesh", "Anand"],
+    "subtitle": "Forging experiences.",
+    "subtitleAccent": "Engineering possibilities.",
+    "verticalLabel": "開発者の旅",
+    "chapterLabel": "第一章 · 序",
+    "mark": "刃",
+    "markText": "J.A",
+    "scrollCue": "SCROLL TO BEGIN YOUR JOURNEY",
+    "image": "/scenes/01-forest-moon.webp",
+    "imageAlt": "A lone swordsman on a rocky ridge in a moonlit forest"
+  },
+  "filmNav": [
+    { "href": "#home", "label": "HOME" },
+    { "href": "#ask", "label": "ASK ME" },
+    { "href": "#work", "label": "WORK" },
+    { "href": "#contact", "label": "CONTACT" }
+  ],
+  "contact": {
+    "heading": "Let's build something legendary.",
+    "text": "Backend engineer in Bangalore, building reliable payment systems."
+  },
+  "footerNote": "Built in TypeScript, one scene at a time."
+}

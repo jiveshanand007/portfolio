@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLogoClickCounter } from "./use-logo-click-counter";
 import { useToast } from "../toast";
+import { site } from "@/lib/site";
 
 export function BrandWordmark() {
   const toast = useToast();
@@ -19,9 +20,9 @@ export function BrandWordmark() {
         increment();
       }}
       className="text-[15px] font-semibold tracking-[-0.02em] text-fg"
-      aria-label="Harshit Sindhu — home"
+      aria-label={`${site.name} — home`}
     >
-      Harshit Sindhu
+      {site.name}
     </Link>
   );
 }

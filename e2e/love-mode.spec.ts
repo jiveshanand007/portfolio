@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("typing 'mumma' in the chat input triggers love mode + toast", async ({ page }) => {
   await page.goto("/");
-  const input = page.getByPlaceholder(/Ask anything about Harshit/i);
+  const input = page.getByPlaceholder(/Ask about Jivesh/i);
   await input.fill("hi mumma");
   await input.press("Enter");
   // html[data-mode="love"] flips for 7s — the existing CSS shifts --accent to pink.

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import matter from "gray-matter";
 import { z } from "zod";
+import { site, contactLinks } from "@/lib/site";
 
 export const SkillGroup = z.object({
   group: z.string().min(1).max(40),
@@ -43,5 +44,12 @@ export type AboutFrontmatterT = z.infer<typeof AboutFrontmatter>;
 export function loadAbout(): { data: AboutFrontmatterT; body: string } {
   const raw = readFileSync(join(process.cwd(), "content/about.mdx"), "utf-8");
   const parsed = matter(raw);
-  return { data: AboutFrontmatter.parse(parsed.data), body: parsed.content };
+  // Identity and contact details default to content/site.json; about.mdx may override any of them.
+  const defaults = {
+    name: site.name,
+    location: site.location,
+    resumeUrl: site.resumeUrl,
+    links: contactLinks().map(({ label, href }) => ({ label, href })),
+  };
+  return { data: AboutFrontmatter.parse({ ...defaults, ...parsed.data }), body: parsed.content };
 }

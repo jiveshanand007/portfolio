@@ -9,6 +9,7 @@ import { PaletteContext, EggsContext } from "./chrome-context";
 import { useKonami } from "./eggs/use-konami";
 import { detectLoveTrigger } from "./eggs/use-love-triggers";
 import type { Audience } from "@/lib/sse";
+import { site, contactLinks } from "@/lib/site";
 
 const SparkleOverlay = dynamic(() => import("./eggs/sparkle-overlay"), { ssr: false });
 const LoveOverlay = dynamic(() => import("./eggs/love-overlay"), { ssr: false });
@@ -21,8 +22,7 @@ const HIDDEN_JOKES = [
   "Two SSE streams walk into a bar. The bartender says, why so chunky?",
 ];
 
-const HIDDEN_CREDITS =
-  "Built by Harshit. Retrieval by pgvector + Voyage. Words by Anthropic. Hosting by Vercel. Bugs by me.";
+const HIDDEN_CREDITS = `Built by ${site.firstName}. Retrieval by pgvector + Voyage. Words by Anthropic. Hosting by Vercel. Bugs by me.`;
 
 function persistAudience(a: Audience) {
   try {
@@ -87,6 +87,12 @@ function ChromeInner({ children }: { children: ReactNode }) {
 
   function fireCommand(id: string) {
     closePalette();
+    if (id.startsWith("connect.")) {
+      const link = contactLinks().find((l) => `connect.${l.id}` === id);
+      if (link?.href.startsWith("mailto:")) window.location.href = link.href;
+      else if (link) window.open(link.href, "_blank", "noopener,noreferrer");
+      return;
+    }
     switch (id) {
       case "nav.ask": {
         const input = document.querySelector<HTMLTextAreaElement>(
@@ -102,9 +108,6 @@ function ChromeInner({ children }: { children: ReactNode }) {
         else window.location.href = "/#work";
         return;
       }
-      case "nav.chrysa":
-        window.location.href = "/chrysa";
-        return;
       case "nav.footer":
         document.getElementById("footer")?.scrollIntoView({ behavior: "smooth" });
         return;
@@ -129,37 +132,13 @@ function ChromeInner({ children }: { children: ReactNode }) {
         window.setTimeout(() => window.location.reload(), 600);
         return;
       }
-      case "connect.linkedin":
-        window.open(
-          "https://www.linkedin.com/in/harshit-sindhu/",
-          "_blank",
-          "noopener,noreferrer"
-        );
-        return;
-      case "connect.github":
-        window.open(
-          "https://github.com/HArshit123455",
-          "_blank",
-          "noopener,noreferrer"
-        );
-        return;
-      case "connect.gitlab":
-        window.open(
-          "https://gitlab.com/harshit_sindhu",
-          "_blank",
-          "noopener,noreferrer"
-        );
-        return;
-      case "connect.email":
-        window.location.href = "mailto:harshitsindhu10@gmail.com";
-        return;
       case "settings.theme": {
         const cur = document.documentElement.getAttribute("data-theme");
         saveTheme(cur === "dark" ? "light" : "dark");
         return;
       }
       case "settings.resume":
-        window.open("/resume.pdf", "_blank", "noopener,noreferrer");
+        window.open(site.resumeUrl, "_blank", "noopener,noreferrer");
         return;
       case "hidden.love": {
         const msg = detectLoveTrigger("love")?.message ?? "For you, with love. ♥";

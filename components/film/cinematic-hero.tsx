@@ -3,20 +3,18 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { initCinematicHero } from "@/lib/film/cinematic-hero";
-
-export interface FilmNavItem {
-  href: string;
-  label: string;
-}
+import { site } from "@/lib/site";
 
 /**
  * Opening scene of the site: moonlit forest, lone swordsman, katana slash
- * across the name. Motion lives in `lib/film/cinematic-hero.ts`.
+ * across the name. Copy and nav come from content/site.json; motion lives in
+ * `lib/film/cinematic-hero.ts`.
  */
-export function CinematicHero({ nav }: { nav: FilmNavItem[] }) {
+export function CinematicHero() {
   const heroRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const progressRef = useRef<HTMLElement>(null);
+  const { hero, filmNav, name } = site;
 
   useEffect(() => {
     if (!heroRef.current) return;
@@ -27,10 +25,11 @@ export function CinematicHero({ nav }: { nav: FilmNavItem[] }) {
     <>
       <nav ref={navRef} className="ch-nav" aria-label="Main">
         <a className="ch-mark" href="#home">
-          <i aria-hidden>刃</i>J.A
+          {hero.mark && <i aria-hidden>{hero.mark}</i>}
+          {hero.markText}
         </a>
         <ul className="ch-links">
-          {nav.map((item, i) => (
+          {filmNav.map((item, i) => (
             <li key={item.href}>
               <a href={item.href} aria-current={i === 0 ? "true" : undefined}>
                 {item.label}
@@ -41,7 +40,7 @@ export function CinematicHero({ nav }: { nav: FilmNavItem[] }) {
       </nav>
 
       <aside ref={progressRef} className="ch-progress" aria-hidden>
-        <span className="ch-progress-chap">第一章 · 序</span>
+        {hero.chapterLabel && <span className="ch-progress-chap">{hero.chapterLabel}</span>}
         <div className="ch-progress-rail">
           <div className="ch-progress-fill" />
         </div>
@@ -50,13 +49,7 @@ export function CinematicHero({ nav }: { nav: FilmNavItem[] }) {
       <section ref={heroRef} className="ch-hero" id="home">
         <div className="ch-stage">
           <div className="ch-layer ch-bg">
-            <Image
-              src="/scenes/01-forest-moon.webp"
-              alt="A lone swordsman on a rocky ridge in a moonlit forest"
-              fill
-              priority
-              sizes="100vw"
-            />
+            <Image src={hero.image} alt={hero.imageAlt} fill priority sizes="100vw" />
           </div>
           <div className="ch-layer ch-moonglow" />
           <div className="ch-layer ch-fog ch-fog-b" />
@@ -65,18 +58,21 @@ export function CinematicHero({ nav }: { nav: FilmNavItem[] }) {
           <div className="ch-layer ch-fog ch-fog-a" />
 
           <div className="ch-copy">
-            <span className="ch-vlabel" aria-hidden>
-              開発者の旅
-            </span>
-            <p className="ch-kicker" aria-label="The journey of a developer" />
-            <h1 className="ch-name" aria-label="Jivesh Anand">
-              <span className="ch-name-line" data-text="Jivesh" />
-              <span className="ch-name-line" data-text="Anand" />
+            {hero.verticalLabel && (
+              <span className="ch-vlabel" aria-hidden>
+                {hero.verticalLabel}
+              </span>
+            )}
+            <p className="ch-kicker" data-text={hero.kicker} aria-label={hero.kicker} />
+            <h1 className="ch-name" aria-label={name}>
+              {hero.nameLines.map((line) => (
+                <span key={line} className="ch-name-line" data-text={line} />
+              ))}
               <span className="ch-cut ch-cut-top" aria-hidden />
               <span className="ch-cut ch-cut-bot" aria-hidden />
             </h1>
             <p className="ch-sub">
-              Forging experiences. <em>Engineering possibilities.</em>
+              {hero.subtitle} {hero.subtitleAccent && <em>{hero.subtitleAccent}</em>}
             </p>
           </div>
 
@@ -94,8 +90,8 @@ export function CinematicHero({ nav }: { nav: FilmNavItem[] }) {
           </svg>
           <div className="ch-layer ch-veil" />
 
-          <a className="ch-cue" href={nav[1]?.href ?? "#home"}>
-            <span>SCROLL TO BEGIN YOUR JOURNEY</span>
+          <a className="ch-cue" href={filmNav[1]?.href ?? "#home"}>
+            <span>{hero.scrollCue}</span>
             <i />
           </a>
         </div>

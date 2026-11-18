@@ -6,7 +6,6 @@ import { CmdKPill } from "./palette/cmd-k-pill";
 const NAV = [
   { href: "/#work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/chrysa", label: "Chrysa" },
 ];
 
 export function Header() {

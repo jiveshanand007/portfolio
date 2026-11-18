@@ -12,12 +12,12 @@ describe("ExperienceFrontmatter", () => {
       ...base,
       kind: "Full-time",
       summary: "Did things.",
-      logo: "/logos/zykrr.svg",
+      logo: "/logos/acme.svg",
       stack: ["TypeScript"],
     });
     expect(parsed.kind).toBe("Full-time");
     expect(parsed.summary).toBe("Did things.");
-    expect(parsed.logo).toBe("/logos/zykrr.svg");
+    expect(parsed.logo).toBe("/logos/acme.svg");
   });
 
   it("rejects an invalid kind", () => {
@@ -50,23 +50,23 @@ describe("lib/content/experience (_loadExperienceFrom)", () => {
   }
 
   it("includes employed roles, sorted by start year descending", () => {
-    write("zykrr.mdx", `title: "Z"\nrole: "Software Developer"\nemployer: "Zykrr"\ndates: "2024 to present"\nlocation: "Delhi"\nstack: ["TypeScript"]`);
+    write("acme.mdx", `title: "Z"\nrole: "Software Developer"\nemployer: "Acme"\ndates: "2024 to present"\nlocation: "Delhi"\nstack: ["TypeScript"]`);
     write("eil.mdx", `title: "E"\nrole: "Intern"\nemployer: "Engineers India Limited"\ndates: "2022"\nlocation: "Delhi"\nstack: []`);
     write("dtu.mdx", `title: "D"\nrole: "B.Tech"\nemployer: "Delhi Technological University"\ndates: "2020-2024"\nlocation: "Delhi"\nstack: []`);
     const exp = _loadExperienceFrom(dir);
     expect(exp.map((e) => e.employer)).toEqual([
-      "Zykrr",
+      "Acme",
       "Engineers India Limited",
       "Delhi Technological University",
     ]);
   });
 
   it("excludes Personal entries (position papers, side projects)", () => {
-    write("zykrr.mdx", `title: "Z"\nrole: "Dev"\nemployer: "Zykrr"\ndates: "2024 to present"\nlocation: "Delhi"\nstack: []`);
+    write("acme.mdx", `title: "Z"\nrole: "Dev"\nemployer: "Acme"\ndates: "2024 to present"\nlocation: "Delhi"\nstack: []`);
     write("philosophy.mdx", `title: "P"\nrole: "Position paper"\nemployer: "Personal"\nstack: []`);
     write("proshop.mdx", `title: "PS"\nrole: "Personal Project"\nemployer: "Personal"\ndates: "2023"\nlocation: "Remote"\nstack: ["React"]`);
     const exp = _loadExperienceFrom(dir);
-    expect(exp.map((e) => e.employer)).toEqual(["Zykrr"]);
+    expect(exp.map((e) => e.employer)).toEqual(["Acme"]);
   });
 
   it("excludes employed entries that are missing dates (cannot place on a timeline)", () => {
@@ -76,7 +76,7 @@ describe("lib/content/experience (_loadExperienceFrom)", () => {
 
   it("validates the zod schema directly", () => {
     const r = ExperienceFrontmatter.safeParse({
-      title: "T", role: "Dev", employer: "Zykrr", dates: "2024", location: "Delhi", stack: ["TS"],
+      title: "T", role: "Dev", employer: "Acme", dates: "2024", location: "Delhi", stack: ["TS"],
     });
     expect(r.success).toBe(true);
   });

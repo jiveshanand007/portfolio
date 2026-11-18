@@ -1,45 +1,42 @@
 ---
-name: "Harshit Sindhu"
-tagline: "Backend-heavy full-stack developer — Node.js, TypeScript, PostgreSQL, React/Next.js"
-location: "New Delhi, India"
-availability: "Open to opportunities"
-lede: "I own the *backend half* of B2B platforms — schema design, 100+ APIs, and the event-driven machinery that keeps data *correct under load*."
-support: "At Zykrr I work across a customer-experience analytics platform: an SLA engine with multi-level escalation, a transactional outbox spanning core entities, and the Redis cache behind every entitlement check — plus the Next.js screens that consume them."
-resumeUrl: "/resume.pdf"
+# Name, location, résumé link and contact links come from content/site.json.
+tagline: "Backend engineer — Java, Spring Boot, PostgreSQL, Kafka, Apache Flink"
+lede: "I build *reliable financial systems* — payment disputes, chargebacks and merchant refunds — where every record has to be *correct the first time*."
+support: "At Zeta I work on the dispute platform behind card payments: merchant refund reconciliation, an idempotent dispute and claim workflow, the full Mastercard dispute lifecycle, and distributed tracing across Visa, Mastercard and RuPay services."
 stats:
-  - { num: "~2", unit: "yrs", cap: "building B2B platforms in production" }
-  - { num: "100+", cap: "REST APIs designed & shipped" }
-  - { num: "400+", cap: "DSA problems solved" }
-  - { num: "5", unit: "★", cap: "Problem Solving on HackerRank" }
+  - { num: "2+", unit: "yrs", cap: "building payment systems at Zeta" }
+  - { num: "5→45", unit: "%", cap: "dispute-module test coverage I drove" }
+  - { num: "20", unit: "%", cap: "lower latency from caching VPA validation" }
+  - { num: "800+", cap: "DSA problems solved" }
 skills:
   - group: "Languages"
-    items: ["JavaScript", "TypeScript", "Python", "C++", "SQL"]
+    items: ["Java", "C++", "Python"]
   - group: "Backend"
-    items: ["Node.js", "NestJS", "Express", "REST APIs", "SSE", "BullMQ"]
-  - group: "Frontend"
-    items: ["React", "Next.js", "Redux", "Tailwind CSS"]
+    items: ["Spring Boot", "REST APIs", "Microservices"]
   - group: "Databases & Caching"
-    items: ["PostgreSQL", "pgvector", "Redis", "MongoDB", "Drizzle ORM", "TypeORM"]
-  - group: "AI / Agents"
-    items: ["Anthropic SDK", "Model Context Protocol", "Voyage embeddings", "RAG"]
+    items: ["PostgreSQL", "MySQL", "Redis"]
+  - group: "Distributed Systems"
+    items: ["Apache Flink", "Kafka", "S3"]
+  - group: "Observability"
+    items: ["OpenTelemetry", "Grafana", "PromQL"]
+  - group: "AI-Assisted Development"
+    items: ["GitHub Copilot", "Claude Code"]
+  - group: "Tools"
+    items: ["Git", "Snyk"]
 achievements:
-  - "Solved 400+ DSA problems across LeetCode, GeeksforGeeks, and CodeStudio."
-  - "5-star rated in Problem Solving on HackerRank."
-  - "Completed Walmart USA Advanced Software Engineering virtual program (Forage, 2023)."
-links:
-  - { label: "GitHub", href: "https://github.com/HArshit123455" }
-  - { label: "LinkedIn", href: "https://www.linkedin.com/in/harshit-sindhu/" }
-  - { label: "LeetCode", href: "https://leetcode.com/u/Harry_S/" }
-  - { label: "Email", href: "mailto:harshitsindhu10@gmail.com" }
+  - "Solved 800+ data structures and algorithms problems across LeetCode, GeeksforGeeks and CodeStudio."
+  - "Introduced an AI-assisted unit testing approach at Zeta that the team adopted, helping raise coverage beyond 90%."
+  - "Secured 3rd position in school in Class XII."
 ---
 
-I'm a backend-heavy full-stack developer with ~2 years building scalable B2B web
-applications. At Zykrr I own roughly half of the backend of a customer-experience
-analytics platform — database design, 100+ REST APIs, an SLA engine, a transactional
-outbox across core entities, and the Redis caching layer that fronts entitlement checks —
-and I wire up the React/Next.js screens that consume them.
+I'm a backend software engineer at Zeta in Bangalore, where I build the systems behind card
+payment disputes, chargebacks and merchant refunds. It is work where correctness matters more
+than cleverness: a duplicated claim or a mismatched refund is a real customer's money.
 
-I work TypeScript end-to-end: frontend, backend, build scripts, eval harnesses. I care
-about data correctness, idempotency, and time-based behaviour — the kind of details that
-separate a demo from production. Outside of work I build things like this site (a
-citation-grounded RAG over my own code) and an MCP server exposing job-search tools.
+Most of what I enjoy is turning fragile, hard-coded flows into designs that are safe to retry and
+easy to extend: making dispute creation idempotent, replacing live service lookups with batch
+reconciliation, and moving card-network rules into configuration so a new network is an addition,
+not a rewrite.
+
+I studied Computer Engineering at Delhi Technological University (2020–2024) and have solved more
+than 800 DSA problems along the way.

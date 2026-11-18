@@ -28,8 +28,6 @@ export interface CinematicHeroOptions {
   progress?: HTMLElement | null;
 }
 
-const KICKER = "THE JOURNEY OF A DEVELOPER";
-
 const EASE: Record<EaseName, (t: number) => number> = {
   out: (t) => 1 - Math.pow(1 - t, 3),
   expo: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
@@ -90,7 +88,8 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
   };
 
   // ---------- split text ----------
-  el.kicker.innerHTML = `<span class="ch-kicker-txt">${KICKER.split("")
+  // text comes from the markup (data-text), which comes from content/site.json
+  el.kicker.innerHTML = `<span class="ch-kicker-txt">${(el.kicker.dataset.text ?? "").split("")
     .map((c) => `<span>${c === " " ? "&nbsp;" : c}</span>`)
     .join("")}</span>`;
   const kickerChars = [...el.kicker.querySelectorAll<HTMLElement>(".ch-kicker-txt span")];

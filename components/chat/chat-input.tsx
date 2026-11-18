@@ -3,6 +3,7 @@
 import { useState, type FormEvent, type KeyboardEvent } from "react";
 import { useInlineCommands } from "../eggs/use-inline-commands";
 import { Icon } from "../ui/icon";
+import { site } from "@/lib/site";
 
 interface ChatInputProps {
   onSubmit: (text: string) => void;
@@ -48,8 +49,8 @@ export function ChatInput({ onSubmit, disabled, placeholder, autoFocus }: ChatIn
         disabled={disabled}
         rows={1}
         autoFocus={autoFocus}
-        aria-label="Ask a question about Harshit's work"
-        placeholder={placeholder ?? "Ask about Harshit's work…"}
+        aria-label={`Ask a question about ${site.firstName}'s work`}
+        placeholder={placeholder ?? `Ask about ${site.firstName}'s work…`}
         className="h-16 flex-1 resize-none bg-transparent py-[19px] pl-7 pr-2 text-[17px] leading-[26px] tracking-[-0.015em] text-fg placeholder:text-muted focus:outline-none"
       />
       <button

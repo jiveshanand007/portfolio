@@ -58,9 +58,9 @@ order: 1`
   it("accepts a site-path url and defaults selected to true", () => {
     const r = ProjectFrontmatter.parse({
       title: "T", slug: "t", year: "2026", kind: "Side project", status: "live",
-      description: "d", tags: [], url: "/chrysa",
+      description: "d", tags: [], url: "/story",
     });
-    expect(r.url).toBe("/chrysa");
+    expect(r.url).toBe("/story");
     expect(r.selected).toBe(true);
     expect(ProjectFrontmatter.safeParse({ ...r, url: "javascript:alert(1)" }).success).toBe(false);
   });

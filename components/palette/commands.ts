@@ -1,3 +1,4 @@
+import { contactLinks } from "@/lib/site";
 export type CommandSection =
   | "Navigate"
   | "Audience"
@@ -25,7 +26,6 @@ export const SECTION_ORDER: CommandSection[] = [
 export const COMMAND_CATALOG: Command[] = [
   { id: "nav.ask", label: "Ask…", kbd: "↩", section: "Navigate" },
   { id: "nav.work", label: "Jump to Work", kbd: "W", section: "Navigate", keywords: ["projects"] },
-  { id: "nav.chrysa", label: "Read the Chrysa story", kbd: "C", section: "Navigate", keywords: ["app", "case study", "blog"] },
   { id: "nav.footer", label: "Jump to Footer", kbd: "↓", section: "Navigate", keywords: ["contact"] },
   { id: "nav.experience", label: "Jump to Experience", section: "Navigate", keywords: ["about", "work", "timeline"] },
   { id: "nav.skills", label: "Jump to Skills", section: "Navigate", keywords: ["about", "stack"] },
@@ -35,10 +35,8 @@ export const COMMAND_CATALOG: Command[] = [
   { id: "audience.recruiter", label: "Switch view → Recruiter", kbd: "2", section: "Audience" },
   { id: "audience.engineer", label: "Switch view → Engineer", kbd: "3", section: "Audience" },
 
-  { id: "connect.linkedin", label: "LinkedIn", section: "Connect" },
-  { id: "connect.github", label: "GitHub", section: "Connect" },
-  { id: "connect.gitlab", label: "GitLab", section: "Connect" },
-  { id: "connect.email", label: "Email", section: "Connect" },
+  // one "connect.<id>" command per contact link in content/site.json
+  ...contactLinks().map((l): Command => ({ id: `connect.${l.id}`, label: l.label, section: "Connect" })),
 
   { id: "settings.theme", label: "Toggle theme", kbd: "T", section: "Settings" },
   { id: "settings.resume", label: "Download résumé", kbd: "R", section: "Settings" },

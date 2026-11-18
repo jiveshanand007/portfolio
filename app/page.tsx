@@ -3,19 +3,11 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ChatShell, type SuggestionChipsByAudience } from "@/components/chat-shell";
 import { ProjectsSection } from "@/components/projects/projects-section";
-import { CommitGraph } from "@/components/projects/commit-graph";
 import { StageReveal } from "@/components/ui/stage-reveal";
 import { Icon } from "@/components/ui/icon";
 import { Footer } from "@/components/footer";
-import { CinematicHero, type FilmNavItem } from "@/components/film/cinematic-hero";
-
-// Scenes are added here as each one is designed and approved.
-const FILM_NAV: FilmNavItem[] = [
-  { href: "#home", label: "HOME" },
-  { href: "#ask", label: "ASK ME" },
-];
-
-export const revalidate = 21600; // 6h — ISR for the embedded GitLab activity graph
+import { CinematicHero } from "@/components/film/cinematic-hero";
+import { site, contactLinks } from "@/lib/site";
 
 interface LandingFront {
   headline: string;
@@ -29,28 +21,29 @@ function loadLanding(): LandingFront {
 }
 
 function CloseStage() {
+  const profiles = site.links.filter((l) => l.icon);
   return (
-    <section aria-labelledby="close-heading" className="px-5 pb-28 sm:px-8 sm:pb-40">
+    <section id="contact" aria-labelledby="close-heading" className="scroll-mt-20 px-5 pb-28 sm:px-8 sm:pb-40">
       <StageReveal className="mx-auto max-w-[1120px] text-center">
         <h2
           id="close-heading"
           className="text-[clamp(44px,7.4vw,84px)] font-bold leading-[1] tracking-[-0.04em] text-fg [font-stretch:104%]"
         >
-          Let&apos;s talk.
+          {site.contact.heading}
         </h2>
         <p className="mx-auto mt-6 max-w-[36ch] text-[clamp(19px,2vw,23px)] font-medium leading-[1.35] tracking-[-0.018em] text-muted">
-          Backend-heavy full-stack developer in New Delhi, open to opportunities.
+          {site.contact.text}
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <a
-            href="mailto:harshitsindhu10@gmail.com"
+            href={`mailto:${site.email}`}
             className="inline-flex h-12 items-center gap-2 rounded-pill bg-fg px-6 text-[16px] font-medium text-bg transition-transform duration-300 ease-stage hover:scale-[1.02]"
           >
             <Icon name="mail" className="h-[18px] w-[18px]" />
             Email me
           </a>
           <a
-            href="/resume.pdf"
+            href={site.resumeUrl}
             download
             className="inline-flex h-12 items-center gap-2 rounded-pill px-6 text-[16px] font-medium text-fg ring-1 ring-inset ring-border-strong transition-colors hover:ring-fg"
           >
@@ -59,26 +52,32 @@ function CloseStage() {
           </a>
         </div>
         <ul className="mt-8 flex justify-center gap-2" aria-label="Profiles">
-          {(
-            [
-              ["github", "GitHub", "https://github.com/HArshit123455"],
-              ["linkedin", "LinkedIn", "https://www.linkedin.com/in/harshit-sindhu/"],
-              ["gitlab", "GitLab", "https://gitlab.com/harshit_sindhu"],
-            ] as const
-          ).map(([icon, label, href]) => (
-            <li key={label}>
+          {profiles.map((l) => (
+            <li key={l.id}>
               <a
-                href={href}
+                href={l.href}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={label}
+                aria-label={l.label}
                 className="inline-flex h-11 w-11 items-center justify-center rounded-pill text-fg-soft transition-colors hover:bg-bg-elev hover:text-fg"
               >
-                <Icon name={icon} className="h-5 w-5" />
+                {l.icon && <Icon name={l.icon} className="h-5 w-5" />}
               </a>
             </li>
           ))}
         </ul>
+        <p className="mt-4 text-[14px] text-muted">
+          {contactLinks()
+            .filter((l) => !l.icon)
+            .map((l, i) => (
+              <span key={l.id}>
+                {i > 0 && " · "}
+                <a href={l.href} target="_blank" rel="noreferrer" className="hover:text-fg">
+                  {l.label}
+                </a>
+              </span>
+            ))}
+        </p>
       </StageReveal>
     </section>
   );
@@ -89,12 +88,11 @@ export default function Home() {
   return (
     <>
       <main>
-        <CinematicHero nav={FILM_NAV} />
+        <CinematicHero />
         <section id="ask" className="scroll-mt-20">
           <ChatShell subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
         </section>
         <ProjectsSection />
-        <CommitGraph />
         <CloseStage />
       </main>
       <Footer />

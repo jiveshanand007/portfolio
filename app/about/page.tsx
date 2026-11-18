@@ -9,11 +9,11 @@ import { Achievements } from "@/components/about/achievements";
 import { CtaCard } from "@/components/about/cta-card";
 import { StageReveal } from "@/components/ui/stage-reveal";
 import { Footer } from "@/components/footer";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About — Harshit Sindhu",
-  description:
-    "Backend-heavy full-stack developer. Where I've worked, what I build, and how to reach me.",
+  title: `About — ${site.name}`,
+  description: `${site.role} at ${site.employer}. Where I've worked, what I build, and how to reach me.`,
 };
 
 export default function AboutPage() {

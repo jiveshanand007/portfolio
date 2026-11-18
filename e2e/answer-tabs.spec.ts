@@ -67,7 +67,7 @@ test("answer tabs lazy-load on first click and cache thereafter", async ({ page 
   });
 
   await page.goto("/");
-  await page.getByPlaceholder(/Ask anything about Harshit/).fill("tell me about caches");
+  await page.getByPlaceholder(/Ask about Jivesh/).fill("tell me about caches");
   await page.keyboard.press("Enter");
 
   await expect(page.getByText("Sample answer.")).toBeVisible();

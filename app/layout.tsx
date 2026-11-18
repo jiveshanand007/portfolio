@@ -6,6 +6,7 @@ import { SiteSparks } from "@/components/motion/site-sparks";
 import { HeaderGate } from "@/components/film/header-gate";
 import "./globals.css";
 import "./film.css";
+import { site } from "@/lib/site";
 
 const mona = Mona_Sans({
   subsets: ["latin"],
@@ -40,8 +41,8 @@ const zenKaku = Zen_Kaku_Gothic_New({
 });
 
 export const metadata: Metadata = {
-  title: "Jivesh Anand — The Journey of a Developer",
-  description: "Backend engineer at Zeta building payment systems. Scroll the story, or ask my work anything.",
+  title: site.seo.title,
+  description: site.seo.description,
 };
 
 export const viewport: Viewport = {
