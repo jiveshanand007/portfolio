@@ -44,6 +44,18 @@ export const SiteConfig = z.object({
     imageAlt: z.string().min(1).max(200),
   }),
   filmNav: z.array(NavItem).min(1).max(8),
+  scenes: z.object({
+    about: z.object({
+      /** shown on the progress rail while this scene is on screen */
+      chapter: z.string().max(30),
+      kicker: z.string().max(40).default(""),
+      title: z.string().min(1).max(60),
+      image: z.string().regex(/^\//),
+      imageAlt: z.string().min(1).max(200),
+      /** lantern positions in the painting, as [x%, y%]; they light up in this order */
+      lanterns: z.array(z.tuple([z.number().min(0).max(100), z.number().min(0).max(100)])).max(24),
+    }),
+  }),
   contact: z.object({ heading: z.string().min(1).max(80), text: z.string().min(1).max(200) }),
   footerNote: z.string().max(160).default(""),
 });

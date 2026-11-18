@@ -12,41 +12,20 @@ import { site } from "@/lib/site";
  */
 export function CinematicHero() {
   const heroRef = useRef<HTMLElement>(null);
-  const navRef = useRef<HTMLElement>(null);
-  const progressRef = useRef<HTMLElement>(null);
   const { hero, filmNav, name } = site;
 
   useEffect(() => {
     if (!heroRef.current) return;
-    return initCinematicHero(heroRef.current, { nav: navRef.current, progress: progressRef.current });
+    // the nav and progress rail belong to <FilmChrome>; the intro fades them in
+    return initCinematicHero(heroRef.current, {
+      nav: document.querySelector<HTMLElement>(".ch-nav"),
+      progress: document.querySelector<HTMLElement>(".ch-progress"),
+    });
   }, []);
 
   return (
     <>
-      <nav ref={navRef} className="ch-nav" aria-label="Main">
-        <a className="ch-mark" href="#home">
-          {hero.mark && <i aria-hidden>{hero.mark}</i>}
-          {hero.markText}
-        </a>
-        <ul className="ch-links">
-          {filmNav.map((item, i) => (
-            <li key={item.href}>
-              <a href={item.href} aria-current={i === 0 ? "true" : undefined}>
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <aside ref={progressRef} className="ch-progress" aria-hidden>
-        {hero.chapterLabel && <span className="ch-progress-chap">{hero.chapterLabel}</span>}
-        <div className="ch-progress-rail">
-          <div className="ch-progress-fill" />
-        </div>
-      </aside>
-
-      <section ref={heroRef} className="ch-hero" id="home">
+      <section ref={heroRef} className="ch-hero" id="home" data-chapter={hero.chapterLabel}>
         <div className="ch-stage">
           <div className="ch-layer ch-bg">
             <Image src={hero.image} alt={hero.imageAlt} fill priority sizes="100vw" />

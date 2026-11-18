@@ -30,10 +30,35 @@
   },
   "filmNav": [
     { "href": "#home", "label": "HOME" },
+    { "href": "#about", "label": "ABOUT" },
     { "href": "#ask", "label": "ASK ME" },
     { "href": "#work", "label": "WORK" },
     { "href": "#contact", "label": "CONTACT" }
   ],
+  "scenes": {
+    "about": {
+      "chapter": "第二章 · 目覚め",
+      "kicker": "CHAPTER II",
+      "title": "The Awakening",
+      "image": "/scenes/02-temple-lanterns.webp",
+      "imageAlt": "A swordsman meditating on the steps of a lantern-lit mountain temple at night",
+      "lanterns": [
+        [42, 62],
+        [37, 73],
+        [46, 54],
+        [51, 58],
+        [57, 57],
+        [64, 57],
+        [66, 39],
+        [68, 36],
+        [72, 34],
+        [77, 30],
+        [82, 25],
+        [88, 19],
+        [97, 5]
+      ]
+    }
+  },
   "contact": {
     "heading": "Let's build something legendary.",
     "text": "Backend engineer in Bangalore, building reliable payment systems."

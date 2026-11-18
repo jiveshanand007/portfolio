@@ -7,6 +7,9 @@ import { StageReveal } from "@/components/ui/stage-reveal";
 import { Icon } from "@/components/ui/icon";
 import { Footer } from "@/components/footer";
 import { CinematicHero } from "@/components/film/cinematic-hero";
+import { FilmChrome } from "@/components/film/film-chrome";
+import { AwakeningScene } from "@/components/film/awakening-scene";
+import { loadAbout } from "@/lib/content/about";
 import { site, contactLinks } from "@/lib/site";
 
 interface LandingFront {
@@ -85,10 +88,13 @@ function CloseStage() {
 
 export default function Home() {
   const landing = loadLanding();
+  const about = loadAbout().data;
   return (
     <>
+      <FilmChrome />
       <main>
         <CinematicHero />
+        <AwakeningScene lede={about.lede} stats={about.stats} />
         <section id="ask" className="scroll-mt-20">
           <ChatShell subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
         </section>

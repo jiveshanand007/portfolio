@@ -24,7 +24,7 @@ interface Leaf { x: number; y: number; s: number; v: number; w: number; rot: num
 export interface CinematicHeroOptions {
   /** The fixed site nav to fade in after the slash. */
   nav?: HTMLElement | null;
-  /** The fixed progress rail (its `.ch-progress-fill` is driven by page scroll). */
+  /** The fixed progress rail, faded in with the nav. */
   progress?: HTMLElement | null;
 }
 
@@ -64,7 +64,6 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
   const lowPower = (navigator.hardwareConcurrency || 8) <= 4 || win.innerWidth < 700;
   const nav = opts.nav ?? null;
   const progressEl = opts.progress ?? null;
-  const progressFill = progressEl?.querySelector<HTMLElement>(".ch-progress-fill") ?? null;
 
   const el = {
     stage: must<HTMLElement>(root, ".ch-stage"),
@@ -290,10 +289,6 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     const r = root.getBoundingClientRect();
     const travel = r.height - win.innerHeight;
     scrollP = travel > 0 ? clamp01(-r.top / travel) : 0;
-    if (progressFill) {
-      const max = doc.documentElement.scrollHeight - win.innerHeight;
-      progressFill.style.transform = `scaleY(${max > 0 ? win.scrollY / max : 0})`;
-    }
     if (!intro.done && scrollP > 0.02) skipIntro(); // never block someone who wants to scroll
   };
 
