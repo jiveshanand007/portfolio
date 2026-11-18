@@ -185,7 +185,7 @@ class FilmAudio {
     o.frequency.exponentialRampToValueAtTime(48, t + 0.3);
     const g = ctx.createGain();
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.85 * intensity, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.4 * intensity, t + 0.01);
     g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
     o.connect(g).connect(this.master);
     o.start(t);
@@ -195,7 +195,7 @@ class FilmAudio {
     bp.type = "bandpass";
     bp.frequency.value = 900;
     const sg = ctx.createGain();
-    sg.gain.setValueAtTime(0.25 * intensity, t);
+    sg.gain.setValueAtTime(0.12 * intensity, t);
     sg.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
     skin.connect(bp).connect(sg).connect(this.master);
     skin.start(t);
