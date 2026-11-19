@@ -3,8 +3,8 @@
  *
  * Out of the previous scene's black: the sakura sunset fades up as the camera
  * eases back, petals drift across the frame, the closing line and heading
- * rise word by word, then the contact actions arrive. At the very end the
- * film fades back to black on the end mark before the footer.
+ * rise word by word, then the contact actions arrive and stay on screen
+ * through to the footer (the last thing a visitor sees is how to reach you).
  * Scrolling back up reverses everything; the petals animate with time while
  * the scene is on screen.
  *
@@ -37,7 +37,6 @@ export function initFinale(root: HTMLElement): () => void {
   const el = {
     bg: must<HTMLElement>(root, ".ct-bg"),
     veil: must<HTMLElement>(root, ".ct-veil"),
-    end: must<HTMLElement>(root, ".ct-end"),
     closing: root.querySelector<HTMLElement>(".ct-closing"),
     kicker: root.querySelector<HTMLElement>(".ct-kicker"),
     text: must<HTMLElement>(root, ".ct-text"),
@@ -94,10 +93,10 @@ export function initFinale(root: HTMLElement): () => void {
   let inView = false;
   const render = (p: number) => {
     const rise = easeOut(seg(p, 0, 0.3));
-    el.veil.style.opacity = String(Math.max(1 - easeInOut(seg(p, 0, 0.18)), easeInOut(seg(p, 0.88, 0.98))));
+    el.veil.style.opacity = String(1 - easeInOut(seg(p, 0, 0.18)));
     el.bg.style.transform = reduce ? "" : `scale(${lerp(1.16, 1.03, rise) + seg(p, 0.3, 1) * 0.04})`;
     el.bg.style.filter = `brightness(${lerp(0.35, 1, rise)}) saturate(${lerp(0.7, 1, rise)})`;
-    petalAlpha = seg(p, 0.05, 0.2) * (1 - seg(p, 0.88, 0.96));
+    petalAlpha = seg(p, 0.05, 0.2);
 
     const show = (node: HTMLElement | null, a: number, b: number) => {
       if (!node) return;
@@ -117,11 +116,7 @@ export function initFinale(root: HTMLElement): () => void {
     show(el.text, 0.38, 0.48);
     el.actions.forEach((a, i) => show(a, 0.44 + i * 0.04, 0.54 + i * 0.04));
 
-    // the end: back to black on the end mark
-    const e = reduce ? 0 : seg(p, 0.9, 1);
-    el.end.style.opacity = String(easeInOut(seg(e, 0, 0.5)) * (1 - easeInOut(seg(e, 0.75, 1))));
-    el.end.style.transform = `scale(${lerp(1.08, 1, e)})`;
-    filmAudio.setLayer("wind", "finale", inView ? 0.3 * (1 - seg(p, 0.85, 1)) : 0);
+    filmAudio.setLayer("wind", "finale", inView ? 0.3 : 0);
   };
 
   let target = 0;

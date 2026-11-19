@@ -442,8 +442,6 @@ html.fc-locked { overflow: hidden; }
   background: linear-gradient(90deg, rgba(20, 8, 16, 0.78) 0%, rgba(20, 8, 16, 0.45) 40%, transparent 68%), linear-gradient(0deg, rgba(8, 9, 13, 0.6) 0%, transparent 35%); }
 .ct-petals { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .ct-veil { position: absolute; inset: 0; z-index: 4; background: var(--ch-black); pointer-events: none; }
-.ct-end { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; font-family: var(--ch-font-display); font-weight: 800; font-size: clamp(80px, 14vw, 180px);
-  color: transparent; -webkit-text-stroke: 1.5px rgba(255, 196, 214, 0.75); opacity: 0; pointer-events: none; }
 
 .ct-copy { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; justify-content: center; gap: clamp(12px, 2vh, 22px);
   max-width: min(760px, 62vw); padding: clamp(100px, 14vh, 140px) clamp(16px, 4vw, 40px) clamp(60px, 10vh, 100px) clamp(16px, 9vw, 170px); }
@@ -468,6 +466,6 @@ html.fc-locked { overflow: hidden; }
   .ct-copy { max-width: none; justify-content: flex-end; padding: 110px 16px 48px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ct-veil, .ct-end, .ct-petals { display: none; }
+  .ct-veil, .ct-petals { display: none; }
   .ct-kicker, .ct-closing, .ct-word, .ct-text, .ct-btn, .ct-links { opacity: 1 !important; }
 }

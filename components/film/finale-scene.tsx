@@ -68,11 +68,6 @@ export function FinaleScene() {
         </div>
 
         <div className="ct-veil" />
-        {scene.endMark && (
-          <div className="ct-end" aria-hidden>
-            {scene.endMark}
-          </div>
-        )}
       </div>
     </section>
   );
