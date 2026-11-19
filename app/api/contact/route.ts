@@ -18,7 +18,7 @@ import { site } from "@/lib/site";
 const Body = z.object({
   name: z.string().trim().min(1).max(80),
   email: z.string().trim().email().max(120),
-  message: z.string().trim().min(10).max(4000),
+  message: z.string().trim().min(1).max(4000),
   website: z.string().max(200).optional(), // honeypot
 });
 
@@ -49,7 +49,7 @@ const json = (body: unknown, status: number) =>
 export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) {
-    return json({ ok: false, error: "Please add your name, a valid email, and a message of at least 10 characters." }, 400);
+    return json({ ok: false, error: "Please add your name, a valid email, and a message." }, 400);
   }
   const { name, email, message, website } = parsed.data;
 

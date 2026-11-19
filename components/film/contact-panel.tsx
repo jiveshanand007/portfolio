@@ -125,7 +125,7 @@ export function ContactPanel() {
               </label>
               <label className="cp-field">
                 <span>Message</span>
-                <textarea name="message" required minLength={10} maxLength={4000} rows={7} />
+                <textarea name="message" required maxLength={4000} rows={7} />
               </label>
               {/* hidden from people; bots fill it in */}
               <input className="cp-trap" name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden />
