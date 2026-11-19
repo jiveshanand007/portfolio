@@ -1,7 +1,8 @@
 /**
  * Film sound, synthesized live with the Web Audio API: no audio files, so
- * nothing to license or download. Off by default; browsers only allow audio
- * after a click or key press, so the nav's sound toggle turns it on.
+ * nothing to license or download. Browsers only allow audio after a click,
+ * tap or key press, so sound that is "on" starts at the visitor's first one;
+ * the nav's toggle turns it off (remembered) or back on.
  *
  * Scenes call the one-shots (`slash`, `ignite`, `thunder`, `drum`) at the
  * moment the matching visual happens, and set continuous layers
@@ -26,19 +27,26 @@ class FilmAudio {
   private crackleTimer = 0;
   private volume = 0.6;
   private on = false;
+  private defaultOn = false;
   private listeners = new Set<(on: boolean) => void>();
 
   get enabled() {
     return this.on;
   }
 
-  /** The visitor's saved choice (sound still needs a click to actually start). */
+  /** Whether sound should be on: the visitor's saved choice, else the site's default. */
   get preferred(): boolean {
     try {
-      return window.localStorage.getItem(STORAGE_KEY) === "on";
+      const saved = window.localStorage.getItem(STORAGE_KEY);
+      return saved ? saved === "on" : this.defaultOn;
     } catch {
-      return false;
+      return this.defaultOn;
     }
+  }
+
+  /** The site's default when the visitor hasn't chosen (site.json `sound.defaultOn`). */
+  setDefaultOn(v: boolean) {
+    this.defaultOn = v;
   }
 
   setVolume(v: number) {

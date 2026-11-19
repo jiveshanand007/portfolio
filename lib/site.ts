@@ -32,7 +32,8 @@ export const SiteConfig = z.object({
   firstName: z.string().min(1).max(40),
   role: z.string().min(1).max(80),
   employer: z.string().min(1).max(80),
-  location: z.string().min(1).max(80),
+  /** optional and not shown unless set; left out on purpose */
+  location: z.string().min(1).max(80).optional(),
   email: z.string().email(),
   resumeUrl: Href,
   links: z.array(SiteLink).min(1).max(8),
@@ -67,8 +68,13 @@ export const SiteConfig = z.object({
     .default({ title: "Send me a message", intro: "", sendLabel: "Send message", successTitle: "Message sent.", successText: "" }),
   /** the synthesized film sound: off until the visitor turns it on */
   sound: z
-    .object({ label: z.string().min(1).max(16).default("SOUND"), volume: z.number().min(0).max(1).default(0.6) })
-    .default({ label: "SOUND", volume: 0.6 }),
+    .object({
+      label: z.string().min(1).max(16).default("SOUND"),
+      volume: z.number().min(0).max(1).default(0.6),
+      /** on unless the visitor turned it off; browsers still need their first click or key press */
+      defaultOn: z.boolean().default(true),
+    })
+    .default({ label: "SOUND", volume: 0.6, defaultOn: true }),
   scenes: z.object({
     about: z.object({
       /** shown on the progress rail while this scene is on screen */

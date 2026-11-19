@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { AboutFrontmatterT } from "@/lib/content/about";
 import { Icon } from "../ui/icon";
+import { site } from "@/lib/site";
 
 export function CtaCard({ data }: { data: AboutFrontmatterT }) {
   return (
@@ -12,7 +13,7 @@ export function CtaCard({ data }: { data: AboutFrontmatterT }) {
         Let&apos;s talk.
       </h2>
       <p className="mx-auto mt-6 max-w-[36ch] text-[clamp(19px,2vw,23px)] font-medium leading-[1.35] tracking-[-0.018em] text-muted">
-        Backend-heavy full-stack developer in New Delhi, open to opportunities.
+        {site.contact.text}
       </p>
       <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
         <a

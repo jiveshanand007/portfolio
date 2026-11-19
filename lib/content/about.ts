@@ -29,7 +29,7 @@ export const AboutFrontmatter = z.object({
   tagline: z.string().min(1).max(160),
   photo: z.string().min(1).max(200).optional(),
   resumeUrl: z.string().min(1).max(200).default("/resume.pdf"),
-  location: z.string().min(1).max(80),
+  location: z.string().min(1).max(80).optional(),
   availability: z.string().min(1).max(60).optional(),
   lede: z.string().min(1).max(400),
   support: z.string().min(1).max(500),

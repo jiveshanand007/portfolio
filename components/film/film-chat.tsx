@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ChatShell, type SuggestionChipsByAudience } from "@/components/chat-shell";
-import { ASK_EVENT, OPEN_CHAT_EVENT, openChat } from "@/lib/film/ask";
+import { ASK_ANCHOR, ASK_EVENT, OPEN_CHAT_EVENT, openChat } from "@/lib/film/ask";
 import { site } from "@/lib/site";
 
 /**
@@ -30,6 +30,11 @@ export function FilmChat({
     };
     window.addEventListener(ASK_EVENT, show);
     window.addEventListener(OPEN_CHAT_EVENT, show);
+    // arriving at /#ask (e.g. "Ask…" from another page) opens the panel
+    if (window.location.hash === ASK_ANCHOR) {
+      show();
+      history.replaceState(null, "", window.location.pathname); // a later refresh shouldn't reopen it
+    }
     return () => {
       window.removeEventListener(ASK_EVENT, show);
       window.removeEventListener(OPEN_CHAT_EVENT, show);

@@ -30,9 +30,9 @@ describe("AboutFrontmatter", () => {
     expect(() => AboutFrontmatter.parse({ ...valid, stats: valid.stats.slice(0, 3) })).toThrow();
   });
 
-  it("requires location and lede", () => {
+  it("requires a lede; location is optional", () => {
     const { location: _l, ...noLoc } = valid;
-    expect(() => AboutFrontmatter.parse(noLoc)).toThrow();
+    expect(AboutFrontmatter.safeParse(noLoc).success).toBe(true);
     const { lede: _le, ...noLede } = valid;
     expect(() => AboutFrontmatter.parse(noLede)).toThrow();
   });

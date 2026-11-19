@@ -80,7 +80,13 @@ export function AwakeningScene({ lede, stats }: { lede: string; stats: Awakening
             ))}
           </p>
           <p className="aw-identity">
-            {site.role} <i>·</i> {site.employer} <i>·</i> {site.location}
+            {site.role} <i>·</i> {site.employer}
+            {site.location && (
+              <>
+                {" "}
+                <i>·</i> {site.location}
+              </>
+            )}
           </p>
           <dl className="aw-stats">
             {stats.map((s) => (

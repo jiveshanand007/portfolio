@@ -3,7 +3,6 @@
   "firstName": "Jivesh",
   "role": "Software Development Engineer",
   "employer": "Zeta",
-  "location": "Bangalore, India",
   "email": "jiveshc01@gmail.com",
   "resumeUrl": "/resume.pdf",
   "links": [
@@ -35,9 +34,10 @@
     { "href": "#experience", "label": "EXPERIENCE" },
     { "href": "#ask", "label": "ASK ME" },
     { "href": "#work", "label": "PROJECTS" },
-    { "href": "#contact", "label": "CONTACT" }
+    { "href": "#contact", "label": "CONTACT" },
+    { "href": "/about", "label": "PROFILE" }
   ],
-  "sound": { "label": "SOUND", "volume": 0.6 },
+  "sound": { "label": "SOUND", "volume": 0.6, "defaultOn": true },
   "ask": { "buttonLabel": "Ask me", "panelLabel": "Ask my work anything" },
   "contactForm": {
     "title": "Send me a message",
@@ -175,13 +175,12 @@
       "kicker": "THE FINAL CHAPTER",
       "image": "/scenes/06-sakura-sunset.webp",
       "imageAlt": "A katana planted in a hilltop clearing among cherry blossoms at sunset",
-      "closing": "EVERY JOURNEY HAS A BEGINNING.",
-      "extraLinks": [{ "href": "/about", "label": "FULL PROFILE" }]
+      "closing": "EVERY JOURNEY HAS A BEGINNING."
     }
   },
   "contact": {
     "heading": "Let's build something.",
-    "text": "Backend engineer in Bangalore, building reliable payment systems."
+    "text": "Backend-heavy full-stack engineer building reliable payment systems, open to opportunities."
   },
   "footerNote": "Built in TypeScript, one scene at a time."
 }

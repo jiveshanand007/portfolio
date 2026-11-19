@@ -59,6 +59,9 @@ export function fogTexture(seed: number, freq: string): string {
   return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
 }
 
+/** Dispatch this (e.g. from the nav's HOME link) to replay the opening, slash and all. */
+export const REPLAY_INTRO_EVENT = "film:replay-intro";
+
 export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions = {}): () => void {
   const doc = root.ownerDocument;
   const win = doc.defaultView ?? window;
@@ -198,7 +201,9 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     el.sub.style.opacity = String(p);
     el.sub.style.transform = `translateY(${lerp(18, 0, p)}px)`;
   });
+  let replaying = false; // on a replay the nav and rail stay visible
   at(SLASH + 0.7, 0.9, (p) => {
+    if (replaying) return;
     if (nav) nav.style.opacity = String(p);
     if (progressEl) progressEl.style.opacity = String(p);
   });
@@ -297,6 +302,27 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
   const skipIntro = () => {
     introT = INTRO_END;
   };
+
+  // Put every step back to its first frame (latest-starting first, so the earliest
+  // step's opening value wins), then let the loop play the intro again.
+  const replayIntro = () => {
+    if (reduce) return;
+    replaying = true;
+    for (let i = tracks.length - 1; i >= 0; i--) tracks[i].fn(tracks[i].e(0));
+    for (const p of [glow, core, scar]) p.style.opacity = "0";
+    showCut(false);
+    offsetCut(0);
+    el.flash.style.opacity = "0";
+    el.stage.style.transform = "";
+    slashHeard = false;
+    introT = 0;
+    intro.done = false;
+    if (!raf) {
+      last = performance.now();
+      raf = win.requestAnimationFrame(loop);
+    }
+  };
+  win.addEventListener(REPLAY_INTRO_EVENT, replayIntro);
   let scrollP = 0;
   const readScroll = () => {
     const r = root.getBoundingClientRect();
@@ -377,6 +403,7 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     io.disconnect();
     filmAudio.setLayer("wind", "hero", 0);
     win.removeEventListener("scroll", readScroll);
+    win.removeEventListener(REPLAY_INTRO_EVENT, replayIntro);
     win.removeEventListener("resize", resize);
   };
 }

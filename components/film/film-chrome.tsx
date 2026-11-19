@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { site } from "@/lib/site";
 import { filmAudio } from "@/lib/film/audio";
 import { ASK_ANCHOR, openChat } from "@/lib/film/ask";
+import { REPLAY_INTRO_EVENT } from "@/lib/film/cinematic-hero";
 
 /**
  * The film's fixed chrome: top nav and the side progress rail. The rail fills
@@ -18,23 +19,28 @@ export function FilmChrome() {
   const [soundOn, setSoundOn] = useState(false);
   const [soundWaiting, setSoundWaiting] = useState(false);
 
-  // Sound is off until asked for. A returning visitor who turned it on gets it back
-  // on their first click or key press (browsers need one before any audio plays).
+  // Sound is on by default (site.json sound.defaultOn) unless the visitor turned it off.
+  // Browsers block audio until the first click, tap or key press, so it starts then.
   useEffect(() => {
     filmAudio.setVolume(site.sound.volume);
+    filmAudio.setDefaultOn(site.sound.defaultOn);
     const unsubscribe = filmAudio.subscribe((on) => {
       setSoundOn(on);
       setSoundWaiting(false);
     });
     if (!filmAudio.preferred) return unsubscribe;
     setSoundWaiting(true);
-    const resume = () => void filmAudio.enable();
-    window.addEventListener("pointerdown", resume, { once: true });
-    window.addEventListener("keydown", resume, { once: true });
+    const events = ["pointerdown", "touchend", "keydown", "click"] as const;
+    const resume = (e: Event) => {
+      // a first click on the sound toggle is the toggle's own business
+      if ((e.target as Element | null)?.closest?.(".ch-sound")) return;
+      events.forEach((ev) => window.removeEventListener(ev, resume));
+      if (!filmAudio.enabled && filmAudio.preferred) void filmAudio.enable();
+    };
+    events.forEach((ev) => window.addEventListener(ev, resume, { passive: true }));
     return () => {
       unsubscribe();
-      window.removeEventListener("pointerdown", resume);
-      window.removeEventListener("keydown", resume);
+      events.forEach((ev) => window.removeEventListener(ev, resume));
     };
   }, []);
 
@@ -47,6 +53,15 @@ export function FilmChrome() {
       const href = link?.getAttribute("href");
       if (!href || href === ASK_ANCHOR) return;
       const target = document.getElementById(href.slice(1));
+      // HOME (and the logo) go back to the top and replay the opening slash; the click
+      // itself lets the browser play its sound
+      if (target?.dataset.replay !== undefined) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+        history.replaceState(null, "", href);
+        window.dispatchEvent(new Event(REPLAY_INTRO_EVENT));
+        return;
+      }
       const at = Number(target?.dataset.anchor);
       if (!target || !Number.isFinite(at)) return;
       e.preventDefault();

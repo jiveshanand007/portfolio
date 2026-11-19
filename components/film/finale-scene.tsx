@@ -75,14 +75,16 @@ export function FinaleScene() {
           <p className="ct-foot-note">
             © {new Date().getFullYear()} {site.name}. {site.footerNote} <FooterCmdKTrigger /> for the good stuff.
           </p>
-          <nav aria-label="Site" className="ct-foot-nav">
-            {/* only links the top nav doesn't already have */}
-            {scene.extraLinks.map((n) => (
-              <a key={n.href} href={n.href}>
-                {n.label}
-              </a>
-            ))}
-          </nav>
+          {scene.extraLinks.length > 0 && (
+            <nav aria-label="Site" className="ct-foot-nav">
+              {/* only links the top nav doesn't already have */}
+              {scene.extraLinks.map((n) => (
+                <a key={n.href} href={n.href}>
+                  {n.label}
+                </a>
+              ))}
+            </nav>
+          )}
         </footer>
 
         <div className="ct-veil" />

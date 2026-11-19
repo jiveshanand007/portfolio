@@ -10,6 +10,7 @@ import { useKonami } from "./eggs/use-konami";
 import { detectLoveTrigger } from "./eggs/use-love-triggers";
 import type { Audience } from "@/lib/sse";
 import { site, contactLinks } from "@/lib/site";
+import { openChat } from "@/lib/film/ask";
 
 const SparkleOverlay = dynamic(() => import("./eggs/sparkle-overlay"), { ssr: false });
 const LoveOverlay = dynamic(() => import("./eggs/love-overlay"), { ssr: false });
@@ -94,14 +95,10 @@ function ChromeInner({ children }: { children: ReactNode }) {
       return;
     }
     switch (id) {
-      case "nav.ask": {
-        const input = document.querySelector<HTMLTextAreaElement>(
-          'textarea[placeholder*="Ask"]'
-        );
-        input?.focus();
-        input?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+      case "nav.ask":
+        // the chat lives in the slide-in panel (components/film/film-chat.tsx)
+        openChat();
         return;
-      }
       case "nav.work": {
         const work = document.getElementById("work");
         if (work) work.scrollIntoView({ behavior: "smooth" });

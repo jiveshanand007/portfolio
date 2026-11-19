@@ -26,7 +26,7 @@ export function CinematicHero({ askHeadline, askSubheadline }: { askHeadline: st
 
   return (
     <>
-      <section ref={heroRef} className="ch-hero" id="home" data-chapter={hero.chapterLabel}>
+      <section ref={heroRef} className="ch-hero" id="home" data-chapter={hero.chapterLabel} data-replay>
         <div className="ch-stage">
           <div className="ch-layer ch-bg">
             <Image src={hero.image} alt={hero.imageAlt} fill priority sizes="100vw" />

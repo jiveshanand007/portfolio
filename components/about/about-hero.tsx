@@ -33,7 +33,7 @@ export function AboutHero({ data }: { data: AboutFrontmatterT }) {
             style={{ ["--reveal-delay" as string]: "160ms" }}
           >
             <span className="live-dot" aria-hidden />
-            {data.availability} · {data.location}
+            {[data.availability, data.location].filter(Boolean).join(" · ")}
           </p>
         ) : null}
 
