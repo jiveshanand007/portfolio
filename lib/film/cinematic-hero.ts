@@ -81,6 +81,7 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     kicker: must<HTMLElement>(root, ".ch-kicker"),
     name: must<HTMLElement>(root, ".ch-name"),
     sub: must<HTMLElement>(root, ".ch-sub"),
+    ask: root.querySelector<HTMLElement>(".ch-ask"),
     cue: must<HTMLElement>(root, ".ch-cue"),
     cutTop: must<HTMLElement>(root, ".ch-cut-top"),
     cutBot: must<HTMLElement>(root, ".ch-cut-bot"),
@@ -202,6 +203,11 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     if (progressEl) progressEl.style.opacity = String(p);
   });
   at(SLASH + 0.9, 0.9, (p) => (el.cue.style.opacity = String(p)));
+  at(SLASH + 0.65, 0.8, (p) => {
+    if (!el.ask) return;
+    el.ask.style.opacity = String(p);
+    el.ask.style.transform = `translateY(${lerp(16, 0, p)}px)`;
+  });
   const INTRO_END = Math.max(...tracks.map((t) => t.start + t.dur));
 
   // Steps that have not started are skipped, so a later step never overrides an earlier one early.
@@ -308,7 +314,9 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     el.bg.style.transform = `scale(${scale}) translate3d(${lerp(0, -2.5, push)}%, ${lerp(0, 1.5, push)}%, 0)`;
     el.bg.style.filter = `brightness(${intro.bgBright * lerp(1, 0.82, push)}) saturate(${lerp(1, 1.15, push)})`;
     el.copy.style.transform = `translate3d(0, ${lerp(0, -16, EASE.out(clamp01(p / 0.5)))}vh, 0)`;
-    el.copy.style.opacity = String(1 - clamp01((p - 0.08) / 0.32));
+    const copyAlpha = 1 - clamp01((p - 0.08) / 0.32);
+    el.copy.style.opacity = String(copyAlpha);
+    el.copy.style.visibility = copyAlpha < 0.02 ? "hidden" : "visible"; // faded text (and the ask box) stops taking clicks
     el.cue.style.visibility = p > 0.06 ? "hidden" : "visible";
     el.fogA.style.opacity = String(lerp(0.38, 0.75, clamp01(p / 0.7)));
     el.fogWall.style.opacity = String(EASE.inOut(clamp01((p - 0.62) / 0.38)));

@@ -44,6 +44,10 @@ export const SiteConfig = z.object({
     imageAlt: z.string().min(1).max(200),
   }),
   filmNav: z.array(NavItem).min(1).max(8),
+  /** the slide-in chat panel and its floating button */
+  ask: z
+    .object({ buttonLabel: z.string().min(1).max(20).default("Ask me"), panelLabel: z.string().min(1).max(60).default("Ask my work anything") })
+    .default({ buttonLabel: "Ask me", panelLabel: "Ask my work anything" }),
   /** the synthesized film sound: off until the visitor turns it on */
   sound: z
     .object({ label: z.string().min(1).max(16).default("SOUND"), volume: z.number().min(0).max(1).default(0.6) })
@@ -86,6 +90,24 @@ export const SiteConfig = z.object({
         )
         .min(1)
         .max(8),
+    }),
+    experience: z.object({
+      chapter: z.string().max(30),
+      kicker: z.string().max(40).default(""),
+      title: z.string().min(1).max(60),
+      image: z.string().regex(/^\//),
+      imageAlt: z.string().min(1).max(200),
+      achievements: z.array(z.object({
+        id: z.string().regex(/^[a-z0-9-]+$/),
+        role: z.string().min(1).max(50),
+        dates: z.string().min(1).max(40),
+        heading: z.string().min(1).max(90),
+        description: z.string().min(1).max(240),
+        figure: z.string().max(32).default(""),
+        value: z.number().min(0).optional(),
+        from: z.number().min(0).optional(),
+        suffix: z.string().max(24).default(""),
+      })).min(1).max(12),
     }),
   }),
   contact: z.object({ heading: z.string().min(1).max(80), text: z.string().min(1).max(200) }),

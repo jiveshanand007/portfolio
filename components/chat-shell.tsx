@@ -6,6 +6,7 @@ import { Hero } from "./hero";
 import { SourcesRail } from "./chat/sources-rail";
 import { SuggestionChips } from "./chat/suggestion-chips";
 import { ChatInput } from "./chat/chat-input";
+import { ASK_EVENT } from "@/lib/film/ask";
 import { StickyFollowup } from "./chat/sticky-followup";
 import { Turn, type TurnData } from "./chat/turn";
 import { readPersistedAudience } from "./chat/audience-pills";
@@ -22,9 +23,11 @@ export interface SuggestionChipsByAudience {
 interface ChatShellProps {
   subheadline: string;
   suggestionChips: SuggestionChipsByAudience;
+  /** "page" = full-screen section (original layout); "panel" = compact, inside the slide-in chat panel */
+  variant?: "page" | "panel";
 }
 
-function Body({ subheadline, suggestionChips }: ChatShellProps) {
+function Body({ subheadline, suggestionChips, variant = "page" }: ChatShellProps) {
   const [audience, setAudience] = useState<Audience>("curious");
   const [turns, setTurns] = useState<TurnData[]>([]);
   const [busy, setBusy] = useState(false);
@@ -148,6 +151,15 @@ function Body({ subheadline, suggestionChips }: ChatShellProps) {
 
   useEffect(() => () => abortRef.current?.abort(), []);
 
+  // Questions asked elsewhere on the page (the hero's ask box) land here.
+  const sendRef = useRef(send);
+  sendRef.current = send;
+  useEffect(() => {
+    const onAsk = (e: Event) => void sendRef.current((e as CustomEvent<string>).detail);
+    window.addEventListener(ASK_EVENT, onAsk);
+    return () => window.removeEventListener(ASK_EVENT, onAsk);
+  }, []);
+
   const promptsForAudience = suggestionChips[audience] ?? [];
   const empty = turns.length === 0;
 
@@ -170,6 +182,37 @@ function Body({ subheadline, suggestionChips }: ChatShellProps) {
       </button>
     </div>
   ) : null;
+
+  if (variant === "panel") {
+    // Inside the slide-in panel: same chat, compact layout, no full-screen stages.
+    return (
+      <div className="flex min-h-full flex-col px-5 pb-6 pt-8 sm:px-7">
+        <Hero compact subheadline={subheadline} audience={audience} onAudienceChange={setAudience} />
+        {empty ? (
+          <div className="mt-8 space-y-6">
+            <ChatInput onSubmit={send} disabled={busy} />
+            <SuggestionChips prompts={promptsForAudience} onPick={send} disabled={busy} />
+            {bannerEl}
+          </div>
+        ) : (
+          <>
+            <div className="mt-10 space-y-14">
+              {turns.map((t) => (
+                <Turn key={t.id} turn={t} />
+              ))}
+            </div>
+            {bannerEl ? <div className="mt-8">{bannerEl}</div> : null}
+            <div className="mt-10">
+              <SourcesRail />
+            </div>
+            <div className="mt-auto pt-8">
+              <StickyFollowup onSubmit={send} onClear={clearThread} disabled={busy} />
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
 
   if (empty) {
     // Stage one: the whole first viewport is the question.

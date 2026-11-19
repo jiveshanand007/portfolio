@@ -32,11 +32,13 @@
     { "href": "#home", "label": "HOME" },
     { "href": "#about", "label": "ABOUT" },
     { "href": "#skills", "label": "SKILLS" },
+    { "href": "#experience", "label": "EXPERIENCE" },
     { "href": "#ask", "label": "ASK ME" },
     { "href": "#work", "label": "WORK" },
     { "href": "#contact", "label": "CONTACT" }
   ],
   "sound": { "label": "SOUND", "volume": 0.6 },
+  "ask": { "buttonLabel": "Ask me", "panelLabel": "Ask my work anything" },
   "scenes": {
     "about": {
       "chapter": "第二章 · 目覚め",
@@ -130,6 +132,24 @@
           "line": "Event streams, and the signals that show what production is really doing.",
           "skills": ["Kafka", "Monitoring", "Observability"]
         }
+      ]
+    },
+    "experience": {
+      "chapter": "第四章 · 戦い",
+      "kicker": "CHAPTER IV · THE BATTLES",
+      "title": "Experience",
+      "image": "/scenes/04-flame-battlefield.webp",
+      "imageAlt": "A lone swordsman facing a burning battlefield beneath a dark sky",
+      "achievements": [
+        { "id": "refund-reconciliation", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "Refund reconciliation, built to scale", "description": "Designed batch reconciliation that matches merchant refunds to disputed transactions and resumes eligible workflows without a live Ledger lookup for every transaction.", "figure": "BATCH FIRST" },
+        { "id": "retry-safe-workflows", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "One outcome, even on retry", "description": "Redesigned dispute and claim creation to be idempotent and retry-safe, preventing duplicate or inconsistent financial records after partial failures.", "figure": "RETRY-SAFE" },
+        { "id": "mastercard-lifecycle", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "The full Mastercard dispute lifecycle", "description": "Implemented the flow from representment to arbitration and replaced hard-coded business rules with configurable workflows.", "figure": "FULL LIFECYCLE" },
+        { "id": "distributed-tracing", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "A trace across the network", "description": "Rolled out OpenTelemetry tracing across Visa, Mastercard and RuPay services so production requests can be followed between repositories.", "value": 5, "suffix": " repos" },
+        { "id": "ai-assisted-testing", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "Testing as a team practice", "description": "Established AI-assisted unit testing for the dispute module; the team later adopted the approach and raised overall coverage beyond 90%.", "from": 5, "value": 45, "suffix": "% coverage" },
+        { "id": "dependency-cleanup", "role": "Software Development Engineer Intern · Zeta", "dates": "Jan 2024 — Aug 2024", "heading": "A leaner payments foundation", "description": "Removed a legacy Gateway Commons dependency across the UPI services, improving modularity and build stability.", "value": 250, "suffix": "+ files" },
+        { "id": "latency-caching", "role": "Software Development Engineer Intern · Zeta", "dates": "Jan 2024 — Aug 2024", "heading": "Less waiting at validation", "description": "Introduced caching in VPA validation flows to reduce transaction latency.", "value": 20, "suffix": "% lower latency" },
+        { "id": "security-fixes", "role": "Software Development Engineer Intern · Zeta", "dates": "Jan 2024 — Aug 2024", "heading": "Security fixes, shipped", "description": "Resolved critical vulnerabilities identified with Snyk across UPI services.", "value": 10, "suffix": "+ vulnerabilities" },
+        { "id": "upi-controls", "role": "Software Development Engineer Intern · Zeta", "dates": "Jan 2024 — Aug 2024", "heading": "Rules that protect each payment", "description": "Implemented merchant category restrictions and transaction caps, and relaxed over-strict QR validation to improve scan success.", "figure": "₹2 LAKH CAP" }
       ]
     }
   },

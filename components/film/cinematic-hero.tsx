@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { initCinematicHero } from "@/lib/film/cinematic-hero";
+import { AskPrompt } from "./ask-prompt";
 import { site } from "@/lib/site";
 
 /**
@@ -10,7 +11,7 @@ import { site } from "@/lib/site";
  * across the name. Copy and nav come from content/site.json; motion lives in
  * `lib/film/cinematic-hero.ts`.
  */
-export function CinematicHero() {
+export function CinematicHero({ askHeadline, askSubheadline }: { askHeadline: string; askSubheadline: string }) {
   const heroRef = useRef<HTMLElement>(null);
   const { hero, filmNav, name } = site;
 
@@ -53,6 +54,7 @@ export function CinematicHero() {
             <p className="ch-sub">
               {hero.subtitle} {hero.subtitleAccent && <em>{hero.subtitleAccent}</em>}
             </p>
+            <AskPrompt id="hero-ask" headline={askHeadline} subheadline={askSubheadline} />
           </div>
 
           <div className="ch-layer ch-fogwall" />

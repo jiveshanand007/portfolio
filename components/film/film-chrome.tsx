@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/lib/site";
 import { filmAudio } from "@/lib/film/audio";
+import { ASK_ANCHOR, openChat } from "@/lib/film/ask";
 
 /**
  * The film's fixed chrome: top nav and the side progress rail. The rail fills
@@ -73,7 +74,17 @@ export function FilmChrome() {
         <ul className="ch-links">
           {filmNav.map((item) => (
             <li key={item.href}>
-              <a href={item.href}>{item.label}</a>
+              <a
+                href={item.href}
+                onClick={(e) => {
+                  // the ask link opens the chat panel rather than scrolling away
+                  if (item.href !== ASK_ANCHOR) return;
+                  e.preventDefault();
+                  openChat();
+                }}
+              >
+                {item.label}
+              </a>
             </li>
           ))}
         </ul>

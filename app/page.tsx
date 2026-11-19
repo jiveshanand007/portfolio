@@ -1,7 +1,7 @@
 import matter from "gray-matter";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { ChatShell, type SuggestionChipsByAudience } from "@/components/chat-shell";
+import type { SuggestionChipsByAudience } from "@/components/chat-shell";
 import { ProjectsSection } from "@/components/projects/projects-section";
 import { StageReveal } from "@/components/ui/stage-reveal";
 import { Icon } from "@/components/ui/icon";
@@ -10,6 +10,8 @@ import { CinematicHero } from "@/components/film/cinematic-hero";
 import { FilmChrome } from "@/components/film/film-chrome";
 import { AwakeningScene } from "@/components/film/awakening-scene";
 import { BreathingScene } from "@/components/film/breathing-scene";
+import { ExperienceScene } from "@/components/film/experience-scene";
+import { FilmChat } from "@/components/film/film-chat";
 import { loadAbout } from "@/lib/content/about";
 import { site, contactLinks } from "@/lib/site";
 
@@ -94,16 +96,15 @@ export default function Home() {
     <>
       <FilmChrome />
       <main>
-        <CinematicHero />
+        <CinematicHero askHeadline={landing.headline} askSubheadline={landing.subheadline} />
         <AwakeningScene lede={about.lede} stats={about.stats} />
         <BreathingScene />
-        <section id="ask" className="scroll-mt-20">
-          <ChatShell subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
-        </section>
+        <ExperienceScene />
         <ProjectsSection />
         <CloseStage />
       </main>
       <Footer />
+      <FilmChat subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
     </>
   );
 }
