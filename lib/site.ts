@@ -37,8 +37,16 @@ export const SiteConfig = z.object({
   email: z.string().email(),
   resumeUrl: Href,
   links: z.array(SiteLink).min(1).max(8),
-  /** the logo, a path under public/: nav mark, favicon and app icon */
+  /** the logo, a path under public/: nav mark and the favicon in browsers that take SVG */
   logo: z.string().min(1).default("/logo.svg"),
+  /** PNG renders of the logo for browsers that ignore SVG favicons, and the home-screen icon */
+  icons: z
+    .object({
+      png32: z.string().min(1).default("/icon-32.png"),
+      png192: z.string().min(1).default("/icon-192.png"),
+      apple: z.string().min(1).default("/apple-icon.png"),
+    })
+    .default({}),
   seo: z.object({
     title: z.string().min(1).max(120),
     description: z.string().min(1).max(300),
@@ -50,7 +58,6 @@ export const SiteConfig = z.object({
     subtitleAccent: z.string().max(80).default(""),
     verticalLabel: z.string().max(20).default(""),
     chapterLabel: z.string().max(30).default(""),
-    markText: z.string().min(1).max(12),
     scrollCue: z.string().min(1).max(60),
     image: z.string().regex(/^\//),
     imageAlt: z.string().min(1).max(200),

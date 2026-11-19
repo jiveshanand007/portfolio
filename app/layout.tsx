@@ -43,7 +43,14 @@ const zenKaku = Zen_Kaku_Gothic_New({
 export const metadata: Metadata = {
   title: site.seo.title,
   description: site.seo.description,
-  icons: { icon: site.logo, apple: site.logo },
+  icons: {
+    icon: [
+      { url: site.logo, type: "image/svg+xml" },
+      { url: site.icons.png32, sizes: "32x32", type: "image/png" },
+      { url: site.icons.png192, sizes: "192x192", type: "image/png" },
+    ],
+    apple: { url: site.icons.apple, sizes: "180x180" },
+  },
 };
 
 export const viewport: Viewport = {
