@@ -133,6 +133,8 @@ export const SiteConfig = z.object({
       imageAlt: z.string().min(1).max(200),
       /** a line above the heading (the heading and text are `contact` at the top level) */
       closing: z.string().max(80).default(""),
+      /** links in the scene's bottom strip after the film nav's (e.g. the full About page) */
+      extraLinks: z.array(NavItem).max(6).default([]),
     }),
   }),
   contact: z.object({ heading: z.string().min(1).max(80), text: z.string().min(1).max(200) }),

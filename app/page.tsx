@@ -5,7 +5,6 @@ import type { SuggestionChipsByAudience } from "@/components/chat-shell";
 import { MissionsScene } from "@/components/film/missions-scene";
 import { FinaleScene } from "@/components/film/finale-scene";
 import { loadSelectedProjects } from "@/lib/content/projects";
-import { Footer } from "@/components/footer";
 import { CinematicHero } from "@/components/film/cinematic-hero";
 import { FilmChrome } from "@/components/film/film-chrome";
 import { AwakeningScene } from "@/components/film/awakening-scene";
@@ -54,7 +53,6 @@ export default function Home() {
         />
         <FinaleScene />
       </main>
-      <Footer />
       <FilmChat subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
     </>
   );
