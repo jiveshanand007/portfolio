@@ -6,7 +6,6 @@ import { initFinale } from "@/lib/film/finale";
 import { site, contactLinks } from "@/lib/site";
 import { Icon } from "@/components/ui/icon";
 import { FooterCmdKTrigger } from "@/components/palette/footer-cmd-k-trigger";
-import { ASK_ANCHOR, openChat } from "@/lib/film/ask";
 
 /**
  * Scene "Contact" (The Final Chapter). Art and lines come from
@@ -75,16 +74,9 @@ export function FinaleScene() {
             © {new Date().getFullYear()} {site.name}. {site.footerNote} <FooterCmdKTrigger /> for the good stuff.
           </p>
           <nav aria-label="Site" className="ct-foot-nav">
-            {[...site.filmNav.filter((n) => n.href !== "#contact"), ...scene.extraLinks].map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                onClick={(e) => {
-                  if (n.href !== ASK_ANCHOR) return;
-                  e.preventDefault();
-                  openChat();
-                }}
-              >
+            {/* only links the top nav doesn't already have */}
+            {scene.extraLinks.map((n) => (
+              <a key={n.href} href={n.href}>
                 {n.label}
               </a>
             ))}
