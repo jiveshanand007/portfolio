@@ -18,6 +18,17 @@ export function FilmChrome() {
   const { hero, filmNav } = site;
   const [soundOn, setSoundOn] = useState(false);
   const [soundWaiting, setSoundWaiting] = useState(false);
+  // narrow screens fold the links into a menu
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   // Sound is on by default (site.json sound.defaultOn) unless the visitor turned it off.
   // Browsers block audio until the first click, tap or key press, so it starts then.
@@ -102,17 +113,18 @@ export function FilmChrome() {
 
   return (
     <>
-      <nav className="ch-nav" aria-label="Main">
+      <nav className="ch-nav" aria-label="Main" data-menu={menuOpen || undefined}>
         <a className="ch-mark" href="#home">
           {hero.mark && <i aria-hidden>{hero.mark}</i>}
           {hero.markText}
         </a>
-        <ul className="ch-links">
+        <ul id="ch-links" className="ch-links">
           {filmNav.map((item) => (
             <li key={item.href}>
               <a
                 href={item.href}
                 onClick={(e) => {
+                  setMenuOpen(false);
                   // the ask link opens the chat panel rather than scrolling away
                   if (item.href !== ASK_ANCHOR) return;
                   e.preventDefault();
@@ -142,6 +154,16 @@ export function FilmChrome() {
           </span>
           {site.sound.label}
           {soundWaiting && !soundOn ? " · TAP" : soundOn ? " ON" : " OFF"}
+        </button>
+        <button
+          type="button"
+          className="ch-menu-btn"
+          aria-expanded={menuOpen}
+          aria-controls="ch-links"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMenuOpen((o) => !o)}
+        >
+          <span aria-hidden />
         </button>
       </nav>
 
