@@ -37,7 +37,12 @@ export const SiteConfig = z.object({
   email: z.string().email(),
   resumeUrl: Href,
   links: z.array(SiteLink).min(1).max(8),
-  seo: z.object({ title: z.string().min(1).max(120), description: z.string().min(1).max(300) }),
+  /** the logo, a path under public/: nav mark, favicon and app icon */
+  logo: z.string().min(1).default("/logo.svg"),
+  seo: z.object({
+    title: z.string().min(1).max(120),
+    description: z.string().min(1).max(300),
+  }),
   hero: z.object({
     kicker: z.string().min(1).max(60),
     nameLines: z.array(z.string().min(1).max(20)).min(1).max(3),
@@ -45,7 +50,6 @@ export const SiteConfig = z.object({
     subtitleAccent: z.string().max(80).default(""),
     verticalLabel: z.string().max(20).default(""),
     chapterLabel: z.string().max(30).default(""),
-    mark: z.string().max(4).default(""),
     markText: z.string().min(1).max(12),
     scrollCue: z.string().min(1).max(60),
     image: z.string().regex(/^\//),

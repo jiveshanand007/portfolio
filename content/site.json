@@ -10,6 +10,7 @@
     { "id": "linkedin", "label": "LinkedIn", "href": "https://www.linkedin.com/in/jiveshanand007/", "icon": "linkedin" },
     { "id": "leetcode", "label": "LeetCode", "href": "https://leetcode.com/jiveshanand007/" }
   ],
+  "logo": "/logo.svg",
   "seo": {
     "title": "Jivesh Anand — The Journey of a Developer",
     "description": "Backend engineer at Zeta building payment systems. Scroll the story, or ask my work anything."
@@ -21,7 +22,6 @@
     "subtitleAccent": "Engineering possibilities.",
     "verticalLabel": "開発者の旅",
     "chapterLabel": "第一章 · 序",
-    "mark": "刃",
     "markText": "J.A",
     "scrollCue": "SCROLL TO BEGIN YOUR JOURNEY",
     "image": "/scenes/01-forest-moon.webp",

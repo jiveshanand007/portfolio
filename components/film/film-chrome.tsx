@@ -115,7 +115,8 @@ export function FilmChrome() {
     <>
       <nav className="ch-nav" aria-label="Main" data-menu={menuOpen || undefined}>
         <a className="ch-mark" href="#home">
-          {hero.mark && <i aria-hidden>{hero.mark}</i>}
+          {/* eslint-disable-next-line @next/next/no-img-element -- an animated SVG; next/image would add nothing */}
+          <img className="ch-logo" src={site.logo} alt="" width={36} height={36} />
           {hero.markText}
         </a>
         <ul id="ch-links" className="ch-links">

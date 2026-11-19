@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="J.A">
+<defs>
+  <linearGradient id="spine" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#5e060c"/><stop offset="1" stop-color="#a50f19"/>
+  </linearGradient>
+  <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#e01e2a"/><stop offset="0.6" stop-color="#ff5b52"/><stop offset="1" stop-color="#ffd0c8"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#a8761f"/>
+  </linearGradient>
+  <radialGradient id="ember" cx="50%" cy="55%" r="70%">
+    <stop offset="0" stop-color="#ff9a3c"/><stop offset="0.55" stop-color="#e2550f"/><stop offset="1" stop-color="#3a1206"/>
+  </radialGradient>
+  <radialGradient id="flare" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#ffd27a" stop-opacity="0.9"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/>
+  </radialGradient>
+  <clipPath id="frame"><rect width="64" height="64" rx="14"/></clipPath>
+</defs>
+<g clip-path="url(#frame)">
+  <rect width="64" height="64" fill="url(#ember)"/>
+  <circle cx="32" cy="34" r="26" fill="url(#flare)">
+    <animate attributeName="r" values="22;30;22" dur="3.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.55;1;0.55" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+</g>
+<!-- J and A, outlines traced from Cinzel ExtraBold (the site's display face) -->
+<path fill="#140806" d="M21.04 13V40.71Q21.04 43.22 20.02 45.19Q18.99 47.16 17.23 48.52Q15.47 49.87 13.26 50.47Q11.05 51.07 8.67 50.8V50.42Q10.57 49.58 11.65 48.02Q12.73 46.46 13.16 44.51Q13.59 42.56 13.59 40.59V13ZM13.71 16.07H13.59Q13.55 14.97 12.77 14.2Q11.99 13.42 10.9 13.42Q10.9 13.42 10.63 13.42Q10.35 13.42 10.35 13.42V13H13.71ZM20.92 16.07V13H24.28V13.42Q24.28 13.42 24 13.42Q23.73 13.42 23.73 13.42Q22.64 13.42 21.86 14.2Q21.09 14.97 21.04 16.07Z"/>
+<path fill="#140806" d="M38.52 12.07 52.64 42.15H43.84L35.42 21.5ZM29.49 39.33Q29.13 40.17 29.34 40.76Q29.55 41.35 30.06 41.66Q30.58 41.98 31.08 41.98H31.46V42.4H22.28V41.98Q22.28 41.98 22.47 41.98Q22.66 41.98 22.66 41.98Q23.62 41.98 24.65 41.37Q25.68 40.76 26.35 39.33ZM38.52 12.07 38.59 17.92 28.22 42.27H24.99L35.91 17.95Q36.08 17.65 36.41 16.89Q36.74 16.13 37.13 15.2Q37.51 14.28 37.81 13.43Q38.11 12.58 38.14 12.07ZM42.65 39.33H51.29Q51.99 40.76 53.01 41.37Q54.02 41.98 54.99 41.98Q54.99 41.98 55.16 41.98Q55.33 41.98 55.33 41.98V42.4H40.68V41.98H41.06Q41.89 41.98 42.53 41.29Q43.18 40.59 42.65 39.33Z"/>
+<!-- the katana is the A's crossbar; drawn flat (handle at x=0, tip at x=100), turned into a rising diagonal -->
+<g transform="translate(3 37.6) rotate(-7) scale(0.6)">
+  <!-- soft shadow so the sword lifts off the glow -->
+  <path d="M1 0 H30 Q66 -1 100 -8.6" stroke="#2a0702" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.35"/>
+  <!-- blade: spine half (darker) and edge half (polished), gentle curve, angled kissaki -->
+  <path d="M30 -2.4 Q66 -3.2 92 -8.6 L100 -9.4 L93.6 -5.8 Q66 0 30 0 Z" fill="url(#spine)"/>
+  <path d="M30 0 Q66 0 93.6 -5.8 L100 -9.4 L94.2 -4.2 Q66 2.6 30 2.6 Z" fill="url(#edge)"/>
+  <!-- shinogi ridge and yokote line at the tip -->
+  <path d="M30 0 Q66 0 93.6 -5.8" stroke="#ffb3aa" stroke-width="0.45" fill="none"/>
+  <path d="M92 -8.6 L94.2 -4.2" stroke="#ffb3aa" stroke-width="0.45"/>
+  <!-- habaki collar -->
+  <rect x="27.2" y="-2.9" width="3.4" height="5.8" rx="0.6" fill="url(#gold)"/>
+  <!-- tsuba guard -->
+  <ellipse cx="25.8" cy="0" rx="1.8" ry="6.8" fill="#121212" stroke="url(#gold)" stroke-width="0.9"/>
+  <!-- tsuka handle: red same under black ito wrap -->
+  <rect x="2.8" y="-2.9" width="21.4" height="5.8" rx="1.4" fill="#b3121b"/>
+  <path d="M4.2 -2.9 L7.6 2.9 M7.6 -2.9 L4.2 2.9 M9.2 -2.9 L12.6 2.9 M12.6 -2.9 L9.2 2.9 M14.2 -2.9 L17.6 2.9 M17.6 -2.9 L14.2 2.9 M19.2 -2.9 L22.6 2.9 M22.6 -2.9 L19.2 2.9" stroke="#0d0d0d" stroke-width="1.6"/>
+  <!-- kashira end cap -->
+  <rect x="0.8" y="-3.2" width="2.4" height="6.4" rx="1" fill="url(#gold)"/>
+</g>
+</svg>
