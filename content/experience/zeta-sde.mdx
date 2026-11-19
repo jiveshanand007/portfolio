@@ -4,7 +4,7 @@ role: "Software Development Engineer 1"
 employer: "Zeta"
 dates: "2024 to present"
 location: "Bangalore, India"
-stack: ["Java", "Spring Boot", "PostgreSQL", "Kafka", "Apache Flink", "OpenTelemetry", "Grafana"]
+stack: ["Java", "Spring Boot", "PostgreSQL", "Kafka", "Apache Flink", "Kubernetes", "OpenTelemetry", "Grafana"]
 kind: "Full-time"
 order: 1
 summary: "Backend engineer on Zeta's payment dispute platform: merchant refund reconciliation, an idempotent dispute workflow, the Mastercard dispute lifecycle, and distributed tracing across card networks."
@@ -20,8 +20,8 @@ Visa, Mastercard and RuPay. This is employer work, so it is described here in pr
 
 I designed the merchant refund reconciliation system. It automatically matches merchant refunds
 with disputed transactions and resumes the dispute workflows that become eligible. Instead of
-looking up each transaction live in the Ledger service, it uses a batch-processing design, which
-scales better and reduces the platform's dependency on the Ledger service.
+looking up each transaction live in the Ledger service, it runs as batch processing on Apache Flink,
+which scales better and reduces the platform's dependency on the Ledger service.
 
 ## Idempotent dispute and claim creation
 

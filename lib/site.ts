@@ -18,6 +18,13 @@ export const SiteLink = z.object({
   icon: z.enum(["github", "linkedin", "gitlab", "mail"]).optional(),
 });
 
+const ProjectArt = z.object({
+  image: z.string().regex(/^\//),
+  imageAlt: z.string().min(1).max(200),
+  color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+  grade: z.enum(["none", "dusk", "night"]).default("none"),
+});
+
 export const NavItem = z.object({ href: Href, label: z.string().min(1).max(24) });
 
 export const SiteConfig = z.object({
@@ -108,6 +115,26 @@ export const SiteConfig = z.object({
         from: z.number().min(0).optional(),
         suffix: z.string().max(24).default(""),
       })).min(1).max(12),
+    }),
+    projects: z.object({
+      chapter: z.string().max(30),
+      kicker: z.string().max(40).default(""),
+      title: z.string().min(1).max(60),
+      missionLabel: z.string().max(20).default("MISSION"),
+      /** the painting, accent colour and grading for each project, by its slug */
+      art: z.record(z.string(), ProjectArt).default({}),
+      /** used for any project without its own entry in `art` */
+      defaultArt: ProjectArt,
+    }),
+    contact: z.object({
+      chapter: z.string().max(30),
+      kicker: z.string().max(40).default(""),
+      image: z.string().regex(/^\//),
+      imageAlt: z.string().min(1).max(200),
+      /** a line above the heading (the heading and text are `contact` at the top level) */
+      closing: z.string().max(80).default(""),
+      /** the mark shown as the film fades out */
+      endMark: z.string().max(8).default(""),
     }),
   }),
   contact: z.object({ heading: z.string().min(1).max(80), text: z.string().min(1).max(200) }),

@@ -34,7 +34,7 @@
     { "href": "#skills", "label": "SKILLS" },
     { "href": "#experience", "label": "EXPERIENCE" },
     { "href": "#ask", "label": "ASK ME" },
-    { "href": "#work", "label": "WORK" },
+    { "href": "#work", "label": "PROJECTS" },
     { "href": "#contact", "label": "CONTACT" }
   ],
   "sound": { "label": "SOUND", "volume": 0.6 },
@@ -78,7 +78,7 @@
           "imageAlt": "A swordsman leaping through a swirling ocean wave",
           "grade": "none",
           "line": "Where I build: the dispute, refund and UPI services I work on at Zeta.",
-          "skills": ["Java", "Spring Boot"]
+          "skills": ["Java", "Spring Boot", "REST APIs", "Microservices"]
         },
         {
           "id": "thunder",
@@ -90,8 +90,8 @@
           "image": "/scenes/07-mountain-dawn.webp",
           "imageAlt": "A swordsman on a cliff above stormy mountains",
           "grade": "storm",
-          "line": "Work that spans many services and three card networks, kept in step.",
-          "skills": ["Distributed Systems", "Microservices"]
+          "line": "Batch pipelines on Apache Flink and services on Kubernetes, kept in step across three card networks.",
+          "skills": ["Distributed Systems", "Apache Flink", "Kubernetes", "AWS S3"]
         },
         {
           "id": "flame",
@@ -104,7 +104,7 @@
           "imageAlt": "A swordsman swinging a blade of fire on a burning battlefield",
           "grade": "none",
           "line": "800+ problems solved: the habit of cutting a problem down to its core.",
-          "skills": ["Problem Solving", "Data Structures & Algorithms"]
+          "skills": ["Data Structures & Algorithms", "C++", "Python", "800+ problems solved"]
         },
         {
           "id": "mist",
@@ -117,7 +117,7 @@
           "imageAlt": "A swordsman in a mist-filled moonlit forest",
           "grade": "mist",
           "line": "Schemas and queries that keep financial records consistent.",
-          "skills": ["PostgreSQL", "Database Design"]
+          "skills": ["PostgreSQL", "MySQL", "Redis", "Database Design"]
         },
         {
           "id": "sound",
@@ -129,8 +129,8 @@
           "image": "/scenes/05-blood-moon-castle.webp",
           "imageAlt": "A castle under a blood-red moon",
           "grade": "none",
-          "line": "Event streams, and the signals that show what production is really doing.",
-          "skills": ["Kafka", "Monitoring", "Observability"]
+          "line": "Event streams on Kafka, and the tracing and metrics that show what production is really doing.",
+          "skills": ["Kafka", "OpenTelemetry", "Grafana", "PromQL"]
         }
       ]
     },
@@ -141,7 +141,7 @@
       "image": "/scenes/04-flame-battlefield.webp",
       "imageAlt": "A lone swordsman facing a burning battlefield beneath a dark sky",
       "achievements": [
-        { "id": "refund-reconciliation", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "Refund reconciliation, built to scale", "description": "Designed batch reconciliation that matches merchant refunds to disputed transactions and resumes eligible workflows without a live Ledger lookup for every transaction.", "figure": "BATCH FIRST" },
+        { "id": "refund-reconciliation", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "Refund reconciliation, built to scale", "description": "Designed batch reconciliation on Apache Flink that matches merchant refunds to disputed transactions and resumes eligible workflows without a live Ledger lookup for every transaction.", "figure": "APACHE FLINK" },
         { "id": "retry-safe-workflows", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "One outcome, even on retry", "description": "Redesigned dispute and claim creation to be idempotent and retry-safe, preventing duplicate or inconsistent financial records after partial failures.", "figure": "RETRY-SAFE" },
         { "id": "mastercard-lifecycle", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "The full Mastercard dispute lifecycle", "description": "Implemented the flow from representment to arbitration and replaced hard-coded business rules with configurable workflows.", "figure": "FULL LIFECYCLE" },
         { "id": "distributed-tracing", "role": "Software Development Engineer · Zeta", "dates": "Aug 2024 — present", "heading": "A trace across the network", "description": "Rolled out OpenTelemetry tracing across Visa, Mastercard and RuPay services so production requests can be followed between repositories.", "value": 5, "suffix": " repos" },
@@ -151,6 +151,25 @@
         { "id": "security-fixes", "role": "Software Development Engineer Intern · Zeta", "dates": "Jan 2024 — Aug 2024", "heading": "Security fixes, shipped", "description": "Resolved critical vulnerabilities identified with Snyk across UPI services.", "value": 10, "suffix": "+ vulnerabilities" },
         { "id": "upi-controls", "role": "Software Development Engineer Intern · Zeta", "dates": "Jan 2024 — Aug 2024", "heading": "Rules that protect each payment", "description": "Implemented merchant category restrictions and transaction caps, and relaxed over-strict QR validation to improve scan success.", "figure": "₹2 LAKH CAP" }
       ]
+    },
+    "projects": {
+      "chapter": "第五章 · 任務",
+      "kicker": "CHAPTER V · THE MISSIONS",
+      "title": "Projects",
+      "missionLabel": "MISSION",
+      "art": {
+        "reverse-resume": { "image": "/scenes/07-mountain-dawn.webp", "imageAlt": "A swordsman on a cliff at dawn above misty mountains", "color": "#2ec4b6", "grade": "none" },
+        "algorithm-visualizer": { "image": "/scenes/02-temple-lanterns.webp", "imageAlt": "A lantern-lit mountain temple at night", "color": "#ffb35c", "grade": "dusk" }
+      },
+      "defaultArt": { "image": "/scenes/01-forest-moon.webp", "imageAlt": "A moonlit forest", "color": "#d5dde7", "grade": "none" }
+    },
+    "contact": {
+      "chapter": "終章 · 縁",
+      "kicker": "THE FINAL CHAPTER",
+      "image": "/scenes/06-sakura-sunset.webp",
+      "imageAlt": "A katana planted in a hilltop clearing among cherry blossoms at sunset",
+      "closing": "EVERY JOURNEY HAS A BEGINNING.",
+      "endMark": "終"
     }
   },
   "contact": {

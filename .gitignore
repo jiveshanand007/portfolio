@@ -33,3 +33,6 @@ public/design-lab/
 # Local tooling output
 graphify-out/
 .idea/
+
+# Resume versions: personal phone/email, repo is public (see resume/README.md)
+resume/versions/
