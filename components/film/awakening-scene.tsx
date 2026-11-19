@@ -48,7 +48,7 @@ export function AwakeningScene({ lede, stats }: { lede: string; stats: Awakening
   );
 
   return (
-    <section ref={ref} id="about" className="aw-scene" data-chapter={scene.chapter} aria-labelledby="aw-title">
+    <section ref={ref} id="about" className="aw-scene" data-chapter={scene.chapter} data-anchor="0.8" aria-labelledby="aw-title">
       <div className="aw-stage">
         <div className="aw-camera">
           {cover("aw-dark")}

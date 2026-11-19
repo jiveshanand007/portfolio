@@ -21,6 +21,7 @@ export function ExperienceScene() {
       id="experience"
       className="ex-scene"
       data-chapter={scene.chapter}
+      data-anchor="0.055"
       aria-labelledby="ex-heading"
       style={{ "--ex-count": achievements.length } as CSSProperties}
     >

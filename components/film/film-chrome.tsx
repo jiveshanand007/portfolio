@@ -38,6 +38,27 @@ export function FilmChrome() {
     };
   }, []);
 
+  // A pinned scene's first frame is often empty (fog, or text not yet revealed), so
+  // "#scene" links glide to the point the scene declares in data-anchor (0..1 through it).
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      const link = (e.target as Element | null)?.closest?.("a[href^='#']");
+      const href = link?.getAttribute("href");
+      if (!href || href === ASK_ANCHOR) return;
+      const target = document.getElementById(href.slice(1));
+      const at = Number(target?.dataset.anchor);
+      if (!target || !Number.isFinite(at)) return;
+      e.preventDefault();
+      const top = window.scrollY + target.getBoundingClientRect().top;
+      const travel = Math.max(0, target.offsetHeight - window.innerHeight);
+      window.scrollTo({ top: top + travel * at, behavior: "smooth" });
+      history.replaceState(null, "", href);
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
   useEffect(() => {
     let raf = 0;
     const update = () => {

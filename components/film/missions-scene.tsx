@@ -46,6 +46,7 @@ export function MissionsScene({ projects }: { projects: MissionProject[] }) {
       id="work"
       className="pr-scene"
       data-chapter={scene.chapter}
+      data-anchor="0.24"
       aria-labelledby="pr-title"
       style={{ "--pr-n": n } as CSSProperties}
     >

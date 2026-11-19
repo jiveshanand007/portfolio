@@ -28,6 +28,7 @@ export function BreathingScene() {
       id="skills"
       className="br-scene"
       data-chapter={scene.chapter}
+      data-anchor="0.11"
       aria-labelledby="br-title"
       style={{ "--br-n": n } as CSSProperties}
     >
