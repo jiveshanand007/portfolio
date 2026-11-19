@@ -39,6 +39,13 @@
   ],
   "sound": { "label": "SOUND", "volume": 0.6 },
   "ask": { "buttonLabel": "Ask me", "panelLabel": "Ask my work anything" },
+  "contactForm": {
+    "title": "Send me a message",
+    "intro": "It lands straight in my inbox. I usually reply within a couple of days.",
+    "sendLabel": "Send message",
+    "successTitle": "Message sent.",
+    "successText": "Thanks for reaching out. I'll reply to the email you gave."
+  },
   "scenes": {
     "about": {
       "chapter": "第二章 · 目覚め",

@@ -55,6 +55,16 @@ export const SiteConfig = z.object({
   ask: z
     .object({ buttonLabel: z.string().min(1).max(20).default("Ask me"), panelLabel: z.string().min(1).max(60).default("Ask my work anything") })
     .default({ buttonLabel: "Ask me", panelLabel: "Ask my work anything" }),
+  /** the contact panel's wording (messages are sent by app/api/contact) */
+  contactForm: z
+    .object({
+      title: z.string().min(1).max(60).default("Send me a message"),
+      intro: z.string().max(200).default(""),
+      sendLabel: z.string().min(1).max(30).default("Send message"),
+      successTitle: z.string().min(1).max(60).default("Message sent."),
+      successText: z.string().max(200).default(""),
+    })
+    .default({ title: "Send me a message", intro: "", sendLabel: "Send message", successTitle: "Message sent.", successText: "" }),
   /** the synthesized film sound: off until the visitor turns it on */
   sound: z
     .object({ label: z.string().min(1).max(16).default("SOUND"), volume: z.number().min(0).max(1).default(0.6) })

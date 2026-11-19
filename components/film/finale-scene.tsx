@@ -6,6 +6,7 @@ import { initFinale } from "@/lib/film/finale";
 import { site, contactLinks } from "@/lib/site";
 import { Icon } from "@/components/ui/icon";
 import { FooterCmdKTrigger } from "@/components/palette/footer-cmd-k-trigger";
+import { openContact } from "@/lib/film/contact";
 
 /**
  * Scene "Contact" (The Final Chapter). Art and lines come from
@@ -47,10 +48,11 @@ export function FinaleScene() {
           </h2>
           <p className="ct-text">{site.contact.text}</p>
           <div className="ct-actions">
-            <a className="ct-btn ct-btn-main ct-act" href={`mailto:${site.email}`}>
+            {/* opens the contact form panel; messages are sent from the site, no mail app needed */}
+            <button type="button" className="ct-btn ct-btn-main ct-act" onClick={() => openContact()}>
               <Icon name="mail" className="h-[18px] w-[18px]" />
               Email me
-            </a>
+            </button>
             <a className="ct-btn ct-act" href={site.resumeUrl} download>
               <Icon name="download" className="h-[18px] w-[18px]" />
               Résumé (PDF)

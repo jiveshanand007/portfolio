@@ -11,6 +11,7 @@ import { AwakeningScene } from "@/components/film/awakening-scene";
 import { BreathingScene } from "@/components/film/breathing-scene";
 import { ExperienceScene } from "@/components/film/experience-scene";
 import { FilmChat } from "@/components/film/film-chat";
+import { ContactPanel } from "@/components/film/contact-panel";
 import { loadAbout } from "@/lib/content/about";
 
 interface LandingFront {
@@ -54,6 +55,7 @@ export default function Home() {
         <FinaleScene />
       </main>
       <FilmChat subheadline={landing.subheadline} suggestionChips={landing.suggestionChips} />
+      <ContactPanel />
     </>
   );
 }
