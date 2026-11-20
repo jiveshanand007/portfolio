@@ -211,7 +211,19 @@ export function initBreathing(root: HTMLElement): () => void {
   const slashCues = techs.map(() => crossingUp());
   let lastStrike = -1;
   let lastBeat = -1;
+  // repeating one-shots (thunder, drums) follow the same hold time as the layers:
+  // they play from when their technique arrives, stop, and start again when it comes back
+  const since: Record<"thunder" | "sound", number> = { thunder: -1, sound: -1 };
+  const fresh = (effect: "thunder" | "sound", a: number) => {
+    if (a <= 0.15) {
+      since[effect] = -1;
+      return false;
+    }
+    if (since[effect] < 0) since[effect] = performance.now();
+    return filmAudio.withinHold(since[effect]);
+  };
   const silence = () => {
+    since.thunder = since.sound = -1;
     filmAudio.setLayer("water", "skills", 0);
     filmAudio.setLayer("flame", "skills", 0);
     filmAudio.setLayer("wind", "skills", 0);
@@ -226,13 +238,13 @@ export function initBreathing(root: HTMLElement): () => void {
     if (strike !== lastStrike) {
       lastStrike = strike;
       const a = level("thunder");
-      if (a > 0.15) filmAudio.thunder(a);
+      if (fresh("thunder", a)) filmAudio.thunder(a);
     }
     const beat = Math.floor(t / 0.8);
     if (beat !== lastBeat) {
       lastBeat = beat;
       const a = level("sound");
-      if (a > 0.15) filmAudio.drum(a);
+      if (fresh("sound", a)) filmAudio.drum(a);
     }
   };
 

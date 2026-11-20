@@ -63,6 +63,11 @@ class FilmAudio {
     this.holdMs = Math.max(0, seconds) * 1000;
   }
 
+  /** Whether a sound that started at `since` (performance.now()) is still inside the hold time. */
+  withinHold(since: number): boolean {
+    return !this.holdMs || performance.now() - since < this.holdMs;
+  }
+
   setVolume(v: number) {
     this.volume = Math.min(1, Math.max(0, v));
     if (this.master && this.ctx) this.master.gain.setTargetAtTime(this.on ? this.volume : 0, this.ctx.currentTime, 0.1);

@@ -315,6 +315,8 @@ export function initCinematicHero(root: HTMLElement, opts: CinematicHeroOptions 
     el.flash.style.opacity = "0";
     el.stage.style.transform = "";
     slashHeard = false;
+    // drop the hero's wind for a frame so it plays again from the top (its hold time restarts)
+    filmAudio.setLayer("wind", "hero", 0);
     introT = 0;
     intro.done = false;
     if (!raf) {
