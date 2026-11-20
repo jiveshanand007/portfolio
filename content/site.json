@@ -37,7 +37,7 @@
     { "href": "#contact", "label": "CONTACT" },
     { "href": "/about", "label": "PROFILE" }
   ],
-  "sound": { "label": "SOUND", "volume": 0.6, "defaultOn": true },
+  "sound": { "label": "SOUND", "volume": 0.6, "defaultOn": true, "holdSeconds": 2 },
   "ask": { "buttonLabel": "Ask me", "panelLabel": "Ask my work anything" },
   "contactForm": {
     "title": "Send me a message",
@@ -175,7 +175,8 @@
       "kicker": "THE FINAL CHAPTER",
       "image": "/scenes/06-sakura-sunset.webp",
       "imageAlt": "A katana planted in a hilltop clearing among cherry blossoms at sunset",
-      "closing": "EVERY JOURNEY HAS A BEGINNING."
+      "closing": "EVERY JOURNEY HAS A BEGINNING.",
+      "music": { "src": "/audio/suzume.mp3", "volume": 0.35, "seconds": 5 }
     }
   },
   "contact": {

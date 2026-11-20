@@ -84,8 +84,10 @@ export const SiteConfig = z.object({
       volume: z.number().min(0).max(1).default(0.6),
       /** on unless the visitor turned it off; browsers still need their first click or key press */
       defaultOn: z.boolean().default(true),
+      /** seconds each scene's sound plays once the scene arrives; 0 keeps it going while on screen */
+      holdSeconds: z.number().min(0).max(60).default(2),
     })
-    .default({ label: "SOUND", volume: 0.6, defaultOn: true }),
+    .default({ label: "SOUND", volume: 0.6, defaultOn: true, holdSeconds: 2 }),
   scenes: z.object({
     about: z.object({
       /** shown on the progress rail while this scene is on screen */
@@ -160,6 +162,15 @@ export const SiteConfig = z.object({
       imageAlt: z.string().min(1).max(200),
       /** a line above the heading (the heading and text are `contact` at the top level) */
       closing: z.string().max(80).default(""),
+      /** a track under public/ that fades in, looping quietly, when the final scene arrives */
+      music: z
+        .object({
+          src: z.string().min(1),
+          volume: z.number().min(0).max(1).default(0.35),
+          /** seconds it plays before slowly fading; defaults to sound.holdSeconds */
+          seconds: z.number().min(0).max(120).optional(),
+        })
+        .optional(),
       /** links in the scene's bottom strip; only ones the top nav doesn't have (e.g. the full About page) */
       extraLinks: z.array(NavItem).max(6).default([]),
     }),

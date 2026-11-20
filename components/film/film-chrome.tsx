@@ -35,6 +35,7 @@ export function FilmChrome() {
   useEffect(() => {
     filmAudio.setVolume(site.sound.volume);
     filmAudio.setDefaultOn(site.sound.defaultOn);
+    filmAudio.setHold(site.sound.holdSeconds);
     const unsubscribe = filmAudio.subscribe((on) => {
       setSoundOn(on);
       setSoundWaiting(false);

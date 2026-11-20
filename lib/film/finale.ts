@@ -31,6 +31,10 @@ function must<T extends Element>(root: ParentNode, sel: string): T {
 
 export function initFinale(root: HTMLElement): () => void {
   const win = root.ownerDocument.defaultView ?? window;
+  // closing track, from site.json via the section's data attributes
+  const music = root.dataset.music ?? "";
+  const musicVolume = Number(root.dataset.musicVolume ?? 0.35);
+  const musicSeconds = root.dataset.musicSeconds ? Number(root.dataset.musicSeconds) : undefined;
   const reduce = win.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const lowPower = (navigator.hardwareConcurrency || 8) <= 4 || win.innerWidth < 700;
 
@@ -116,7 +120,10 @@ export function initFinale(root: HTMLElement): () => void {
     show(el.text, 0.38, 0.48);
     el.actions.forEach((a, i) => show(a, 0.44 + i * 0.04, 0.54 + i * 0.04));
 
-    filmAudio.setLayer("wind", "finale", inView ? 0.3 : 0);
+    // one sound at the end: the closing track if site.json sets one, else the leaves breeze.
+    // The track swells in once the heading is up and fades as the visitor scrolls back up.
+    if (music) filmAudio.setMusic(music, inView && p > 0.2 ? musicVolume : 0, musicSeconds);
+    else filmAudio.setLayer("leaves", "finale", inView ? 0.4 : 0);
   };
 
   let target = 0;
@@ -151,7 +158,10 @@ export function initFinale(root: HTMLElement): () => void {
   const io = new IntersectionObserver(([entry]) => {
     inView = !!entry?.isIntersecting;
     if (inView) start();
-    else filmAudio.setLayer("wind", "finale", 0);
+    else {
+      filmAudio.setLayer("leaves", "finale", 0);
+      if (music) filmAudio.setMusic(music, 0);
+    }
   });
   io.observe(root);
   read();
@@ -167,7 +177,8 @@ export function initFinale(root: HTMLElement): () => void {
   return () => {
     win.cancelAnimationFrame(raf);
     io.disconnect();
-    filmAudio.setLayer("wind", "finale", 0);
+    filmAudio.setLayer("leaves", "finale", 0);
+    if (music) filmAudio.setMusic(music, 0);
     win.removeEventListener("scroll", onScroll);
     win.removeEventListener("resize", onResize);
   };

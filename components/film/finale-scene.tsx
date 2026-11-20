@@ -24,7 +24,12 @@ export function FinaleScene() {
   }, []);
 
   return (
-    <section ref={ref} id="contact" className="ct-scene" data-chapter={scene.chapter} data-anchor="0.65" aria-labelledby="ct-heading">
+    <section ref={ref} id="contact" className="ct-scene" data-chapter={scene.chapter} data-anchor="0.65"
+      data-music={scene.music?.src}
+      data-music-volume={scene.music?.volume}
+      data-music-seconds={scene.music?.seconds}
+      aria-labelledby="ct-heading"
+    >
       <div className="ct-stage">
         <div className="ct-bg">
           <Image src={scene.image} alt={scene.imageAlt} fill sizes="100vw" />
