@@ -15,12 +15,17 @@ Since August 2024 I have worked as a Software Development Engineer on Zeta's pay
 platform: the services that handle card payment disputes, chargebacks and merchant refunds for
 Visa, Mastercard and RuPay. This is employer work, so it is described here in prose only.
 
-## Merchant refund reconciliation
+## Merchant refund reconciliation (owned end to end in production)
 
-I designed the merchant refund reconciliation system. It automatically matches merchant refunds
-with disputed transactions and resumes the dispute workflows that become eligible. Instead of
-looking up each transaction live in the Ledger service, it runs as batch processing on Apache Flink,
-which scales better and reduces the platform's dependency on the Ledger service.
+I designed, built and deployed the merchant refund reconciliation system, and I own it in
+production. It is a batch processing job on Apache Flink that proactively checks every open
+dispute for a merchant refund already issued on the same transaction. Without that check, a
+customer could be credited twice, once by the merchant's refund and again through the dispute,
+and the company would absorb the loss. The job catches those duplicate refunds before money moves
+twice, matches each refund to its dispute, and resumes the dispute workflows that become eligible.
+
+Running it as batch processing on Flink, instead of looking up each transaction live in the Ledger
+service, scales better and reduces the platform's dependency on the Ledger service.
 
 ## Idempotent dispute and claim creation
 

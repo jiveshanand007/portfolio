@@ -1,6 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import { basename, join, extname } from "node:path";
-import { inArray } from "drizzle-orm";
+import { and, eq, inArray, notInArray } from "drizzle-orm";
 import { chunkMdx } from "./chunk-mdx";
 import { upsertDocuments } from "./upsert";
 import { embed, voyageCostCents } from "@/lib/clients/voyage";
@@ -19,6 +19,8 @@ export interface IngestMdxResult {
   inserted: number;
   updated: number;
   skipped: number;
+  /** Stale chunks deleted because their page changed or lost that section. */
+  removed: number;
   costCents: number;
   ms: number;
 }
@@ -63,7 +65,29 @@ export async function ingestMdxDir(
   }
 
   const stored = await storeChunks(db, allChunks);
-  return { scanned, chunked, ...stored, ms: Date.now() - start };
+  const removed = await removeStaleChunks(db, sourceType, allChunks);
+  return { scanned, chunked, ...stored, removed, ms: Date.now() - start };
+}
+
+/**
+ * Chunks are keyed by content hash, so editing a page adds the new text without touching the
+ * old. Delete what a re-ingested page no longer contains, or search keeps quoting old wording.
+ */
+async function removeStaleChunks(db: AnyDb, sourceType: MdxSourceType, current: NewDocument[]): Promise<number> {
+  const files = [...new Set(current.map((c) => c.filePath).filter((f): f is string => !!f))];
+  if (files.length === 0) return 0;
+  const keep = current.map((c) => c.contentHash);
+  const gone = await db
+    .delete(documents)
+    .where(
+      and(
+        eq(documents.sourceType, sourceType),
+        inArray(documents.filePath, files),
+        notInArray(documents.contentHash, keep)
+      )
+    )
+    .returning({ id: documents.id });
+  return gone.length;
 }
 
 /** Chunks from one markdown string (a single page rather than a folder). */
@@ -95,7 +119,7 @@ export function docsFromMarkdown(
 export async function storeChunks(
   db: AnyDb,
   allChunks: NewDocument[]
-): Promise<Omit<IngestMdxResult, "scanned" | "chunked" | "ms">> {
+): Promise<Omit<IngestMdxResult, "scanned" | "chunked" | "removed" | "ms">> {
   // Pre-filter: skip chunks whose content_hash already exists. Idempotent re-runs cost ~zero.
   let preSkipped = 0;
   let newChunks = allChunks;

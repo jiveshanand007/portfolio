@@ -132,6 +132,14 @@ function makeResult(
 }
 
 export function pickCodeChunk(chunks: RetrievedChunk[]): CodeChunkResult | null {
+  // Code belongs to the answer only when the question is about code or a personal project.
+  // When the best source is employer work (an experience entry), any code among the lower
+  // sources is from an unrelated project, so show the top source as prose instead.
+  const top = chunks[0];
+  if (top && top.sourceType !== "github" && top.sourceType !== "project") {
+    return makeResult(top, inferLanguage(top.filePath) || "mdx", "prose");
+  }
+
   // Pass 1: real source code — sourceType=github + non-prose language +
   // not a Markdown wrapper. Markdown files always go to prose path because
   // MarkdownMessage handles their headings AND fenced code blocks better

@@ -66,7 +66,21 @@ describe("ingestMdxDir with projects", () => {
     embedSpy.mockClear();
     const again = await ingestMdxDir(ctx.db, dir, "project");
     expect(again.inserted).toBe(0);
+    expect(again.removed).toBe(0);
     expect(again.skipped).toBeGreaterThan(0);
     expect(embedSpy).not.toHaveBeenCalled();
+  });
+
+  it("editing a page replaces its old text instead of keeping both", async () => {
+    await writeFile(
+      join(dir, "algorithm-visualizer.mdx"),
+      PROJECT.replace("canvas engine I wrote", "WebGL renderer I rewrote")
+    );
+    const result = await ingestMdxDir(ctx.db, dir, "project");
+    expect(result.removed).toBeGreaterThan(0);
+
+    const text = (await ctx.db.select().from(documents)).map((r) => r.content).join("\n");
+    expect(text).toContain("WebGL renderer");
+    expect(text).not.toContain("canvas engine");
   });
 });
