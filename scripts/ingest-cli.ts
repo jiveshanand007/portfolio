@@ -20,11 +20,14 @@ async function main() {
     } else if (source === "experience") {
       const result = await ingestMdxDir(database, join(process.cwd(), "content/experience"), "experience");
       console.log(result);
+    } else if (source === "projects") {
+      const result = await ingestMdxDir(database, join(process.cwd(), "content/projects"), "project");
+      console.log(result);
     } else if (source === "snippets") {
       const result = await ingestMdxDir(database, join(process.cwd(), "content/snippets"), "snippet");
       console.log(result);
     } else {
-      console.log("Usage: pnpm ingest <github|experience|snippets> [args]");
+      console.log("Usage: pnpm ingest <github|experience|projects|snippets> [args]");
     }
   } finally {
     await closeDb();

@@ -1,6 +1,5 @@
 // lib/rag/rewrite.ts
-import type Anthropic from "@anthropic-ai/sdk";
-import { anthropic, HAIKU_MODEL, anthropicCostCents } from "@/lib/clients/anthropic";
+import { llmComplete } from "@/lib/clients/llm";
 import { recordSpend } from "@/lib/spend-cap/daily-cap";
 import type { TestDb } from "@/tests/helpers/test-db";
 import type { db as dbFn } from "@/lib/db/client";
@@ -26,24 +25,13 @@ export async function rewriteQuery(db: AnyDb, history: ChatTurn[]): Promise<stri
   // Short-circuit: if there's no prior context, don't even call the LLM.
   if (history.length === 1 && trimmed.length < 80) return trimmed;
 
-  const res = await anthropic().messages.create({
-    model: HAIKU_MODEL,
-    max_tokens: 100,
+  const { text, costCents } = await llmComplete({
+    tier: "fast",
+    maxTokens: 100,
     system: REWRITE_SYSTEM,
     messages: history.map((t) => ({ role: t.role, content: t.content })),
   });
+  await recordSpend(db, costCents);
 
-  const cost = anthropicCostCents(HAIKU_MODEL, {
-    inputTokens: res.usage.input_tokens,
-    outputTokens: res.usage.output_tokens,
-  });
-  await recordSpend(db, cost);
-
-  const text = res.content
-    .filter((b): b is Anthropic.TextBlock => b.type === "text")
-    .map((b) => b.text)
-    .join("")
-    .trim();
-
-  return text || trimmed;
+  return text.trim() || trimmed;
 }

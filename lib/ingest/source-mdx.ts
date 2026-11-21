@@ -1,5 +1,5 @@
 import { readFile, readdir } from "node:fs/promises";
-import { join, extname } from "node:path";
+import { basename, join, extname } from "node:path";
 import { inArray } from "drizzle-orm";
 import { chunkMdx } from "./chunk-mdx";
 import { upsertDocuments } from "./upsert";
@@ -11,7 +11,7 @@ import { documents, type NewDocument } from "@/lib/db/schema";
 
 type AnyDb = TestDb | ReturnType<typeof dbFn>;
 
-export type MdxSourceType = "experience" | "snippet";
+export type MdxSourceType = "experience" | "snippet" | "project";
 
 export interface IngestMdxResult {
   scanned: number;
@@ -42,7 +42,7 @@ export async function ingestMdxDir(
     scanned++;
     const fullPath = join(dir, file);
     const raw = await readFile(fullPath, "utf-8");
-    const chunks = chunkMdx(raw, `content/${sourceType}/${file}`);
+    const chunks = chunkMdx(raw, `content/${basename(dir)}/${file}`);
     chunked += chunks.length;
     for (const chunk of chunks) {
       allChunks.push({

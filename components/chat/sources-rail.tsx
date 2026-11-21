@@ -11,6 +11,7 @@ const TAG_FROM_SOURCE_TYPE: Record<CitationCard["chunk"]["sourceType"], string> 
   github: "production",
   experience: "experience",
   snippet: "snippet",
+  project: "project",
 };
 
 function tagFor(card: CitationCard): string {

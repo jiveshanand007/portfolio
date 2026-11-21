@@ -30,7 +30,7 @@ export const documents = pgTable(
   "documents",
   {
     id: serial("id").primaryKey(),
-    sourceType: text("source_type").notNull(), // 'github' | 'experience' | 'snippet'
+    sourceType: text("source_type").notNull(), // 'github' | 'experience' | 'snippet' | 'project'
     sourceUrl: text("source_url"), // GitHub blob URL when github; null for mdx
     sourceProject: text("source_project"), // e.g., 'job-mcp' | 'auth' | 'insights'
     filePath: text("file_path"), // repo-relative or content/-relative

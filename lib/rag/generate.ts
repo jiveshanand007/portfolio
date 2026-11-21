@@ -1,4 +1,4 @@
-import { anthropic, SONNET_MODEL, anthropicCostCents } from "@/lib/clients/anthropic";
+import { llmStream } from "@/lib/clients/llm";
 import { recordSpend } from "@/lib/spend-cap/daily-cap";
 import { CitationStreamParser, type StreamEvent } from "./citation-parser";
 import type { RetrievedChunk } from "./retrieve";
@@ -65,42 +65,30 @@ export async function* generate(
   const { history, chunks, audience, signal } = options;
   const parser = new CitationStreamParser(chunks);
 
-  // Prepend the audience voice block as its own (non-cached) system text.
-  // SYSTEM_PROMPT stays the ephemeral-cached block so the cache stays warm
-  // across audience switches.
-  const stream = anthropic().beta.promptCaching.messages.stream(
-    {
-      model: SONNET_MODEL,
-      max_tokens: 1024,
-      system: [
-        { type: "text", text: VOICE_INSTRUCTIONS[audience] },
-        { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
-        { type: "text", text: renderChunksAsContext(chunks) },
-      ],
-      messages: history.map((t) => ({ role: t.role, content: t.content })),
-    },
-    { signal }
-  );
+  // The audience voice is its own system block so SYSTEM_PROMPT stays cacheable
+  // across audience switches (on providers that cache).
+  const stream = llmStream({
+    tier: "main",
+    maxTokens: 1024,
+    system: [
+      { text: VOICE_INSTRUCTIONS[audience] },
+      { text: SYSTEM_PROMPT, cache: true },
+      { text: renderChunksAsContext(chunks) },
+    ],
+    messages: history.map((t) => ({ role: t.role, content: t.content })),
+    signal,
+  });
 
+  // Spend is recorded when the stream ends; a stream that throws midway is not
+  // billed. This is intentional.
+  let costCents = 0;
   for await (const event of stream) {
-    if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-      for (const ev of parser.feed(event.delta.text)) {
-        yield ev;
-      }
+    if (event.type === "text") {
+      for (const ev of parser.feed(event.text)) yield ev;
+    } else {
+      costCents = event.costCents;
     }
   }
   for (const ev of parser.flush()) yield ev;
-
-  // Record spend after stream completes.
-  // PromptCachingBetaUsage has cache_read_input_tokens and cache_creation_input_tokens (nullable).
-  // If the stream throws mid-iteration, finalMessage() never runs and no spend is
-  // recorded — partial generations are not billed. This is intentional.
-  const finalMessage = await stream.finalMessage();
-  const cost = anthropicCostCents(SONNET_MODEL, {
-    inputTokens: finalMessage.usage.input_tokens,
-    outputTokens: finalMessage.usage.output_tokens,
-    cacheReadInputTokens: finalMessage.usage.cache_read_input_tokens ?? 0,
-    cacheCreationInputTokens: finalMessage.usage.cache_creation_input_tokens ?? 0,
-  });
-  await recordSpend(db, cost);
+  await recordSpend(db, costCents);
 }

@@ -51,7 +51,9 @@ The site works without any keys. These turn on the extra features. Put the keys 
 | Feature | Keys in `.env.local` | Then run |
 | --- | --- | --- |
 | Contact form sends email | `RESEND_API_KEY` (from resend.com) | (nothing else to run) |
-| "Ask me" chat answers | `DATABASE_URL`, `ANTHROPIC_API_KEY`, `VOYAGE_API_KEY` | `pnpm db:migrate`, then `pnpm ingest` |
+| "Ask me" chat answers | `DATABASE_URL`, `VOYAGE_API_KEY`, and a chat model: `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` | `pnpm db:migrate`, then `pnpm ingest` |
+
+The chat model can be any OpenAI-compatible provider (Google Gemini has a free tier; also Groq, OpenRouter, OpenAI, or your own model) or Anthropic (`LLM_PROVIDER=anthropic`). `.env.example` lists the settings for each.
 
 ## Change the content
 

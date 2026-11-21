@@ -5,7 +5,7 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState, type
 export interface CitationCard {
   n: number;
   chunk: {
-    sourceType: "github" | "experience" | "snippet";
+    sourceType: "github" | "experience" | "snippet" | "project";
     sourceProject?: string | null;
     sourceUrl?: string | null;
     filePath?: string | null;

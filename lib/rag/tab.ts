@@ -3,7 +3,7 @@
 // Three tab generators sharing one file. impact + story are LLM-backed and
 // record spend; code is deterministic.
 import { z } from "zod";
-import { anthropic, SONNET_MODEL, anthropicCostCents } from "@/lib/clients/anthropic";
+import { llmComplete, llmStream } from "@/lib/clients/llm";
 import { recordSpend } from "@/lib/spend-cap/daily-cap";
 import type { RetrievedChunk } from "./retrieve";
 import type { Audience } from "@/lib/sse";
@@ -54,37 +54,21 @@ export interface GenerateImpactOptions {
 }
 
 async function callImpactOnce(db: AnyDb, opts: GenerateImpactOptions): Promise<ImpactResultT> {
-  const client = anthropic();
-  const res = await client.messages.create(
-    {
-      model: SONNET_MODEL,
-      max_tokens: 600,
-      system: IMPACT_SYSTEM,
-      messages: [
-        {
-          role: "user",
-          content: `Question: ${opts.question}\n\nContext:\n${renderChunksAsContext(opts.chunks)}\n\nReturn the JSON now.`,
-        },
-      ],
-    },
-    { signal: opts.signal }
-  );
-  const text = res.content
-    .filter((b): b is Extract<typeof b, { type: "text" }> => b.type === "text")
-    .map((b) => b.text)
-    .join("");
-  const cleaned = text.trim().replace(/^```(?:json)?\s*|\s*```$/g, "");
-  const parsed = JSON.parse(cleaned);
-  const validated = ImpactResult.parse(parsed);
-
-  const cost = anthropicCostCents(SONNET_MODEL, {
-    inputTokens: res.usage.input_tokens,
-    outputTokens: res.usage.output_tokens,
-    cacheReadInputTokens: 0,
-    cacheCreationInputTokens: 0,
+  const { text, costCents } = await llmComplete({
+    tier: "main",
+    maxTokens: 600,
+    system: IMPACT_SYSTEM,
+    messages: [
+      {
+        role: "user",
+        content: `Question: ${opts.question}\n\nContext:\n${renderChunksAsContext(opts.chunks)}\n\nReturn the JSON now.`,
+      },
+    ],
+    signal: opts.signal,
   });
-  await recordSpend(db, cost);
-  return validated;
+  await recordSpend(db, costCents);
+  const cleaned = text.trim().replace(/^```(?:json)?\s*|\s*```$/g, "");
+  return ImpactResult.parse(JSON.parse(cleaned));
 }
 
 export async function generateImpact(
@@ -229,33 +213,22 @@ export async function* generateStory(
   opts: GenerateStoryOptions
 ): AsyncGenerator<StoryEvent> {
   try {
-    const stream = anthropic().messages.stream(
-      {
-        model: SONNET_MODEL,
-        max_tokens: 800,
-        system: STORY_SYSTEM,
-        messages: [
-          {
-            role: "user",
-            content: `Question: ${opts.question}\n\nContext:\n${renderChunksAsContext(opts.chunks)}\n\nTell the story.`,
-          },
-        ],
-      },
-      { signal: opts.signal }
-    );
-    for await (const event of stream) {
-      if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
-        yield { type: "token", text: event.delta.text };
-      }
-    }
-    const finalMessage = await stream.finalMessage();
-    const cost = anthropicCostCents(SONNET_MODEL, {
-      inputTokens: finalMessage.usage.input_tokens,
-      outputTokens: finalMessage.usage.output_tokens,
-      cacheReadInputTokens: 0,
-      cacheCreationInputTokens: 0,
+    const stream = llmStream({
+      tier: "main",
+      maxTokens: 800,
+      system: STORY_SYSTEM,
+      messages: [
+        {
+          role: "user",
+          content: `Question: ${opts.question}\n\nContext:\n${renderChunksAsContext(opts.chunks)}\n\nTell the story.`,
+        },
+      ],
+      signal: opts.signal,
     });
-    await recordSpend(db, cost);
+    for await (const event of stream) {
+      if (event.type === "text") yield { type: "token", text: event.text };
+      else await recordSpend(db, event.costCents);
+    }
     yield { type: "done" };
   } catch (e) {
     console.error("[tab/story] failed", e);
