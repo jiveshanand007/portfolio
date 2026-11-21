@@ -15,7 +15,7 @@ export const SiteLink = z.object({
   label: z.string().min(1).max(40),
   href: Href,
   /** an icon name from components/ui/icon.tsx; links without one show as text */
-  icon: z.enum(["github", "linkedin", "gitlab", "mail"]).optional(),
+  icon: z.enum(["github", "linkedin", "gitlab", "leetcode", "mail"]).optional(),
 });
 
 const ProjectArt = z.object({

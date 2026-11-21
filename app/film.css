@@ -496,8 +496,10 @@ html.fc-locked { overflow: hidden; }
 .ct-btn:hover { transform: translateY(-2px); background: rgba(20, 8, 16, 0.75); }
 .ct-btn-main { background: #ffd2df; border-color: #ffd2df; color: #2a0b18; }
 .ct-btn-main:hover { background: #ffe1ea; }
-.ct-links { list-style: none; display: flex; flex-wrap: wrap; gap: 18px; opacity: 0; }
-.ct-links a { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; letter-spacing: 0.08em; color: #ffeef3; text-decoration: none; border-bottom: 1px solid transparent; }
+.ct-links { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 18px; opacity: 0; }
+.ct-links li { display: flex; }
+.ct-links a { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px; letter-spacing: 0.08em; color: #ffeef3; text-decoration: none; border-bottom: 1px solid transparent; }
+.ct-links a svg { flex: none; }
 .ct-links a:hover { border-bottom-color: #ffc4d6; }
 
 @media (max-width: 860px) {

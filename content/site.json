@@ -8,7 +8,7 @@
   "links": [
     { "id": "github", "label": "GitHub", "href": "https://github.com/jiveshanand007", "icon": "github" },
     { "id": "linkedin", "label": "LinkedIn", "href": "https://www.linkedin.com/in/jiveshanand007/", "icon": "linkedin" },
-    { "id": "leetcode", "label": "LeetCode", "href": "https://leetcode.com/jiveshanand007/" }
+    { "id": "leetcode", "label": "LeetCode", "href": "https://leetcode.com/jiveshanand007/", "icon": "leetcode" }
   ],
   "logo": "/logo.svg",
   "icons": { "png32": "/icon-32.png", "png192": "/icon-192.png", "apple": "/apple-icon.png" },
