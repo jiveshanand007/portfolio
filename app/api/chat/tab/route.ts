@@ -9,6 +9,8 @@ import { generateImpact, generateStory, pickCodeChunk } from "@/lib/rag/tab";
 import { encodeSse } from "@/lib/sse";
 
 export const runtime = "nodejs";
+// Answers stream for up to ~20 s on a free-tier model; leave room so Vercel does not cut them off.
+export const maxDuration = 60;
 
 // chunkIds + question travel in the request body because Vercel serverless
 // functions don't share an in-memory cache across routes — the original LRU

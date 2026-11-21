@@ -11,6 +11,8 @@ import { makeSseStream } from "@/lib/sse";
 import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
+// Answers stream for up to ~20 s on a free-tier model; leave room so Vercel does not cut them off.
+export const maxDuration = 60;
 
 const Body = z.object({
   messages: z.array(z.object({
