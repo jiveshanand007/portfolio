@@ -10,6 +10,11 @@
     --ch-crimson: #c8102e;
     --ch-silver: #d5dde7;
     --ch-silver-dim: #8e9bab;
+    /* nav glass: readable over every scene, the bright sakura sunset included */
+    --ch-glass: rgba(8, 9, 13, 0.62);
+    --ch-glass-edge: rgba(46, 196, 182, 0.35);
+    --ch-glass-text: #cfd7e0;
+    --ch-glass-blur: blur(10px) saturate(1.2);
     --ch-font-display: var(--font-shippori), "Yu Mincho", serif;
     --ch-font-title: var(--font-cinzel), var(--font-shippori), serif;
     --ch-font-ui: var(--font-zen-kaku), system-ui, sans-serif;
@@ -337,8 +342,18 @@
 @media (max-width: 1120px) { .ch-links { gap: 14px; } .ch-links a { letter-spacing: 0.18em; font-size: 11px; } }
 @media (max-width: 960px) { .ch-links { display: none; } }
 
+/* glass pill: the links, sound toggle and menu button float in dark frosted glass */
+.ch-links { padding: 9px 22px; border-radius: 999px; background: var(--ch-glass); border: 1px solid var(--ch-glass-edge);
+  backdrop-filter: var(--ch-glass-blur); -webkit-backdrop-filter: var(--ch-glass-blur); box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); }
+.ch-links a { color: var(--ch-glass-text); padding: 2px 0; }
+.ch-links a::after { bottom: -3px; }
+.ch-links a:hover, .ch-links a[aria-current="true"] { color: var(--ch-teal); }
+.ch-sound { background: var(--ch-glass); border-color: var(--ch-glass-edge); color: var(--ch-glass-text);
+  backdrop-filter: var(--ch-glass-blur); -webkit-backdrop-filter: var(--ch-glass-blur); }
+
 /* menu button + full-screen link list, narrow screens only */
-.ch-menu-btn { display: none; position: relative; z-index: 2; flex: none; width: 40px; height: 40px; border: 1px solid rgba(213, 221, 231, 0.22); border-radius: 999px; background: rgba(8, 9, 13, 0.35); cursor: pointer; }
+.ch-menu-btn { display: none; position: relative; z-index: 2; flex: none; width: 40px; height: 40px; border: 1px solid var(--ch-glass-edge); border-radius: 999px; background: var(--ch-glass);
+  backdrop-filter: var(--ch-glass-blur); -webkit-backdrop-filter: var(--ch-glass-blur); cursor: pointer; }
 .ch-menu-btn span, .ch-menu-btn span::before, .ch-menu-btn span::after { position: absolute; width: 16px; height: 1px; background: var(--ch-silver); transition: transform 0.3s var(--ch-ease-out), background 0.2s; }
 .ch-menu-btn span { left: 11px; top: 19px; }
 .ch-menu-btn span::before, .ch-menu-btn span::after { content: ""; left: 0; top: 0; }
@@ -355,6 +370,7 @@
     display: flex; position: fixed; inset: 0; z-index: 1; margin: 0; padding: 96px 32px;
     flex-direction: column; align-items: center; justify-content: center; gap: 26px;
     background: rgba(6, 7, 10, 0.94); backdrop-filter: blur(6px);
+    border: 0; border-radius: 0; box-shadow: none;
   }
   .ch-nav[data-menu] .ch-links a { font-size: 15px; letter-spacing: 0.32em; color: var(--ch-silver); }
   .ch-nav[data-menu] .ch-mark, .ch-nav[data-menu] .ch-sound { position: relative; z-index: 2; }
